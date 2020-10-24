@@ -8,7 +8,7 @@ Get a score based on accuracy of your pins! (and maybe time depending on the mod
 
 # CLI 
 
-npm install
+npm install &&
 npm run serve
 
 /functions
