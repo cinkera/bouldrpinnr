@@ -3,7 +3,7 @@ import 'firebase/auth'
 import 'firebase/firestore'
 import firebaseConfig from './config'
 
-firebase.initializeApp(firebaseConfig)
+firebase.initializeApp(firebaseConfig.firebaseConfig)
 
 // utils
 const db = firebase.firestore()
