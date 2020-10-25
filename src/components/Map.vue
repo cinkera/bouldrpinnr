@@ -92,7 +92,8 @@ export default {
       this.pin.setPosition(position);
     },
     onClickButton () {
-    //   console.log("\n map clicked, about to emit position: ", this.createdPin.position);
+      // console.log("\n map clicked, about to emit position: ", this.createdPin.position);
+      console.log("\n pinned at: ", this.createdPin.position);
       this.$emit('clicked', this.createdPin.position)
     }
   }
@@ -102,6 +103,6 @@ export default {
 <style lang="css" scoped>
 #map {
   width: 100%;
-  height: 800px;
+  height: 600px;
 }
 </style>
