@@ -10,6 +10,8 @@ import gmapsInit from "@/plugins/goldMap.js";
 import userLocationIcon from "@/assets/userLocationIcon.svg";
 import storePin from "@/assets/storePin.svg";
 
+// TODO: we need to disable link in the map and also get 3d globe gmaps interface
+
 export default {
   data: () => ({
     google: Function,
@@ -72,8 +74,6 @@ export default {
           });
         });
 
-        
-
         this.pin = new this.google.maps.Marker({ map: this.map });
         this.map.addListener("click", event => {
           let latM = event.latLng.lat();
@@ -93,7 +93,7 @@ export default {
     },
     onClickButton () {
       // console.log("\n map clicked, about to emit position: ", this.createdPin.position);
-      console.log("\n pinned at: ", this.createdPin.position);
+      // console.log("\n pinned at: ", this.createdPin.position);
       this.$emit('clicked', this.createdPin.position)
     }
   }

@@ -11,12 +11,18 @@ const {
     login,
     register,
     getUserData
-  } = require("./handlers/users");
+} = require("./handlers/users");
+  
+const {
+    getTenBoulders
+  } = require("./handlers/data");
 
   // * User Routes
 app.post("/login", login);
 app.post("/register", register);
-app.get('/getUserData', getUserData)
+app.get('/getUserData', getUserData);
+
+app.get('/getTenBoulders', getTenBoulders);
 
 
 exports.api = functions.https.onRequest(app);

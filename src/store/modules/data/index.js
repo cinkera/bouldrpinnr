@@ -3,7 +3,7 @@ import mutations from './mutations';
 import getters from "./getters";
 
 const initialState = {
-  posts: [],
+  boulders: [],
   errors: [],
   post: {},
   user: {},
@@ -11,11 +11,9 @@ const initialState = {
 }
 
 const state = {
-  posts: [],
+  boulders: [],
   errors: [],
-  post: {},
   user: {},
-  owner: '',
   loading: false,
 }
 
