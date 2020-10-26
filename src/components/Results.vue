@@ -1,34 +1,31 @@
 <template>
     <div class="wrapper">
-        <v-card class="card" :v-for="this.start in this.results">
-            <div class="boulder" :v-bind="this.boulders">
-                {{ this.boulders[this.start].name }}
-            </div>
-            <div class="result" :v-bind="this.results">
-                your guess was 
-                {{ this.results[this.start].distanceAway}}
-                Miles away!
-            </div>
-        </v-card>
+        <v-card class='card' v-for="(boulder,  index) in this.combined" :key="index">
+                <div class="boulder">
+                    {{ boulder.name }}
+                </div>
+                <div class="result">
+                    your guess was 
+                    {{ boulder.distance}}
+                    Miles away!
+                </div>
+         </v-card>
     </div>
 </template>
 
 <script>
-    export default {
-        name: "Results",
-        props: ['boulders', 'results'],
-        mounted() {
-            console.log("\n results mounted, boulders.length: ", this.boulders.length);
-            this.length = this.boulders.length;
-            console.log("\n boulders: ", this.boulders);
-            console.log("\n results: ", this.results);
-        },
-        data() {
-            return {
-                start: 0,
-            }
+export default {
+    name: "Results",
+    props: ['combined'],
+    created() {
+        console.log("\n results mounted");
+        console.log(this.combined)
+    },
+    data() {
+        return {
         }
     }
+}
 </script>
 
 <style scoped>
@@ -52,5 +49,4 @@
     width: 50%;
     float: right;
 }
-
 </style>

@@ -4,14 +4,14 @@
       <v-col class="mb-4">
         <v-card class="mx-auto">
             <v-overlay class='overlay' :absolute="absolute" :opacity="opacity" :value="finished">
-              <Results :boulders='this.boulders' :results='this.results' />
+              <Results :combined='this.combined'/>
             </v-overlay>
             <v-overlay class='overlay' :absolute="absolute" :opacity="opacity" :value="loading">
               Loading!!
             </v-overlay>
             <v-overlay class='overlay' :absolute="absolute" :opacity="opacity" :value="overlay">
               <div class="img">
-                <!-- <v-img :src='this.imageSource'></v-img> -->
+                <v-img :contain="true" :src="this.imageSource"></v-img>
               </div>
               <div class='bottom' :opacity="opacity">
                 <h3> {{current}} / {{total}} </h3>
@@ -55,8 +55,6 @@ import { db } from '@/firebase'
 import firebaseConfig from '../config'
 import { mapGetters, mapActions, mapState} from 'vuex'
 var geodist = require('geodist')
-const BUCKET = firebaseConfig.firebaseConfig.storageBucket;
-console.log('\n ... bucket: ', BUCKET);
 
 export default {
   name: 'Play',
@@ -74,12 +72,12 @@ export default {
     totalDistance: 0,
     opacity: .9,
     boulders: [],
-    results: []
+    results: [],
+    combined: []
   }),
   computed: {
     imageSource() {
-      const link =  BUCKET + this.boulders[this.activeFormation].imgLink;
-      console.log("\n ... computed, Link: ", link);
+      const link =  this.boulders[this.activeFormation].imgLink;
       return link;
     }
   },
@@ -117,7 +115,7 @@ export default {
           // this game is finished
           alert('game is finished!');
           this.finished = true;
-
+          this.combineResults();
         } else {
           // reset and go to next formation
           this.position = null; // reset guess for next one
@@ -137,29 +135,19 @@ export default {
       }
     },
     setPin(position) {
-      console.log("\n boulder: ", this.boulders[this.activeFormation].name, "\n position: ",
-                    this.boulders[this.activeFormation].Latitude, ", ", this.boulders[this.activeFormation].Longitude);
-      // const dist = this.calculateDistance(
-      //                     this.boulders[this.activeFormation].Latitude, 
-      //                     this.boulders[this.activeFormation].Longitude, 
-      //                     position.lat, position.lng);
       this.position = position;
     },
     async getBoulders(limit) {
       this.loading = true;
       try {
-        console.log('\n ... getBoulders function in Play.vue')
         const res = await axios(`/getTenBoulders/`, {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
             }
         });
-        console.log('\n response.data in Play.vue: ', res.data.boulders);
         this.boulders = res.data.boulders;
-        console.log("\n ... this.boulders after axios: ", this.boulders);
         this.loading = false;
-        // this.$forceUpdate();
       } catch(error) {
         console.log('\n error in getBoulders');
         return res.error('Error in getting Boulders in Play.vue');
@@ -167,14 +155,24 @@ export default {
     },
     // // calculate distance for GPS coords function
     async calculateDistance(lat1, lon1, lat2, lon2) {
-      // var actual = {lat: lat1, lon: lon1} 
-      // var userInput = {lat: lat2, lon: lon2} 
-      // console.log('\n ... calculateDistance: ', lat1, lon1, lat2, lon2);
       var dist = geodist({lat: lat1, lon: lon1}, {lat: lat2, lon: lon2});
-      // var dist = geodist(actual, userInput);
       console.log('\n ... dist: ', dist);
       return dist;
     },
+    combineResults() {
+      const comb = [];
+      var tmp = 0;
+      this.boulders.forEach((ele) => {
+        const temp = {
+          name: ele.name,
+          distance: this.results[tmp].distanceAway
+        };
+        comb.push(temp);
+        tmp++;
+      })
+      this.combined = comb;
+      console.log("\n combined: ", comb);
+    }
   }  
 }
 </script>
@@ -200,7 +198,7 @@ export default {
   display: grid;
 }
 .img {
-  border: 1px solid green;
+  overflow-y: scroll;
   height: 575px;
   width: 850px;
 }
