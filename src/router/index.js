@@ -21,6 +21,11 @@ const routes = [
     component: () => import( '../views/Play.vue')
   },
   {
+    path: '/about',
+    name: 'about',
+    component: () => import( '../views/About.vue')
+  },
+  {
     path: '/account',
     name: 'Account',
     // route level code-splitting
@@ -39,7 +44,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth)
-  console.log('\n router BeforeEach, auth.currentUser: ', auth.currentUser);
+  // console.log('\n router BeforeEach, auth.currentUser: ', auth.currentUser);
   if (requiresAuth && !auth.currentUser) {
     next('/login')
   } else {

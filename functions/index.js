@@ -14,8 +14,8 @@ const {
 } = require("./handlers/users");
   
 const {
-    getTenBoulders
-  } = require("./handlers/data");
+  getTenBoulders
+} = require("./handlers/data");
 
   // * User Routes
 app.post("/login", login);

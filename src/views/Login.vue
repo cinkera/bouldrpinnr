@@ -58,7 +58,7 @@
                 <!-- @input="$v.email.$touch()" @blur="$v.email.$touch()" -->
                 <v-spacer></v-spacer>
                 <div class="buttons">
-                  <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="forgot">Forgot Password</v-btn> 
+                  <!-- <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="forgot">Forgot Password</v-btn>  -->
                   <v-btn 
                     :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" 
                     outlined 
@@ -67,7 +67,7 @@
                   <v-btn 
                     :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" 
                     outlined 
-                    @click="signup">Sign Up
+                    @click="submit">Sign Up
                   </v-btn> 
                 </div>
               </form>
@@ -85,6 +85,7 @@ import Vuelidate from 'vuelidate'
     name: 'Login',
     methods: {
       submit() {
+        alert('not built yet! come back later')
         console.log('\n submit clicked');
         // firebase
         //   .auth()

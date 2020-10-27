@@ -43,26 +43,9 @@ export default {
 
         this.map = new this.google.maps.Map(document.getElementById("map"), {
           center: initialPosition,
-          zoom: 6
+          mapTypeId: 'satellite',
+          zoom: 4
         });
-
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(position => {
-            let location = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-
-            this.user = new this.google.maps.Marker({
-              map: this.map,
-              position: location,
-              icon: userLocationIcon
-            });
-            this.map.panTo(location);
-          });
-        } else {
-          console.log("Browser dosn't support Geolocation :(");
-        }
 
         const markers = this.locations.map(location => {
           const marker = new this.google.maps.Marker({

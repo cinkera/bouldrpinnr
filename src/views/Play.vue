@@ -11,7 +11,7 @@
             </v-overlay>
             <v-overlay class='overlay' :absolute="absolute" :opacity="opacity" :value="overlay">
               <div class="img">
-                <v-img :contain="true" max-height="800" max-width="950" :src="this.imageSource"></v-img>
+                <v-img class="mx-auto center" max-height="750" max-width="800" :src="this.imageSource"></v-img>
               </div>
               <div class='bottom' :opacity="opacity">
                 <h3> {{current}} / {{total}} </h3>
@@ -19,32 +19,36 @@
                   show the Map
                 </v-btn>
                 <v-btn class="butt" color="white" outlined @click="hintClicked">
-                Gimme a hint ({{hints}} left)
-            </v-btn>
+                  Gimme a hint ({{hints}} left)
+                </v-btn>
+                <v-btn class="credits" color="white" outlined @click="creditClicked">
+                  <v-icon>mdi-camera</v-icon>{{this.boulders[this.activeFormation].author}}
+                </v-btn>
             </div>
             <div class="hintWrapper">
               <HintCard v-if="this.showHint===true" :hint='this.hint' />
             </div>
           </v-overlay>
-
-          <div class='map'>
-             <Map @clicked="setPin"/>
-          </div>
-          <div class='buttons'>
-            <div>
-              <h3> {{current}} / {{total}} </h3>
+          <div class="gameWrapper" :value="!this.finished">
+            <div class='map'>
+              <Map @clicked="setPin"/>
             </div>
-            <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" class="butt" outlined @click="overlay=true">
-                show overlay
-            </v-btn>
-            <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" class="butt" outlined @click="submit">
-                Submit
-            </v-btn>
-            <v-btn id="hintsButton" :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" class="butt" outlined @click="hintClicked">
-                Hint ({{hints}} left)
-            </v-btn>
-            <div class="hintWrapper" >
-              <HintCard v-if="this.showHint===true" :hint='hint' />
+            <div class='buttons'>
+              <div>
+                <h3> {{current}} / {{total}} </h3>
+              </div>
+              <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" class="butt" outlined @click="overlay=true">
+                  show overlay
+              </v-btn>
+              <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" class="butt" outlined @click="submit">
+                  Submit
+              </v-btn>
+              <v-btn id="hintsButton" :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" class="butt" outlined @click="hintClicked">
+                  Hint ({{hints}} left)
+              </v-btn>
+              <div class="hintWrapper" >
+                <HintCard v-if="this.showHint===true" :hint='hint' />
+              </div>
             </div>
           </div>
         </v-card>
@@ -78,7 +82,7 @@ export default {
     hints: 2,
     activeFormation: 0,
     current: 1,
-    total: 7,
+    total: 5,
     totalDistance: 0,
     opacity: .9,
     boulders: [],
@@ -117,21 +121,20 @@ export default {
         const result = {
           pinnedLocation: this.position,
           distanceAway: dist,
-          points: this.totalDist
+          points: this.totalDist,
+          hintUsed: this.hintThisRound
         }
-        console.log('\n this.result: ', result);
-        // add to the results array
         this.results.push(result);
-        // update avg distance / total distance
         // check iteration and go to next one or finish
         if(this.current == this.total) {
           // this game is finished
-          alert('game is finished!');
           this.finished = true;
           this.combineResults();
         } else {
           // reset and go to next formation
           this.hintThisRound = false;
+          this.showHint = false;
+          this.hint = '';
           this.position = null; // reset guess for next one
           this.activeFormation++;
           this.current++;
@@ -140,8 +143,8 @@ export default {
       }
     },
     hintClicked() {
-      this.hint = 'testing';
       console.log('hint clicked');
+      this.hint = this.boulders[this.activeFormation].hint;
       console.log("\nthis.hintThisRound: ", this.hintThisRound, 
                   "\nthis.hints: ", this.hints);
       if(this.hintThisRound === false) {
@@ -154,6 +157,9 @@ export default {
       } else {
         console.log("\n ... dont show hint");
       }
+    },
+    creditClicked() {
+      window.open(this.boulders[this.activeFormation].website, "_blank"); 
     },
     setPin(position) {
       this.position = position;
@@ -196,7 +202,8 @@ export default {
       this.boulders.forEach((ele) => {
         const temp = {
           name: ele.name,
-          distance: this.results[tmp].distanceAway
+          distance: this.results[tmp].distanceAway,
+          imgLink: ele.imgLink
         };
         comb.push(temp);
         tmp++;
@@ -228,9 +235,8 @@ export default {
 }
 .img {
   overflow-y: hidden; 
-  margin-top: 20px;
-  height: 750px;
-  width: 950px;
+  /* height: 750px;
+  width: 950px; */
 }
 .main {
   height: 800px;

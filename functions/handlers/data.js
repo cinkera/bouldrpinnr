@@ -3,33 +3,26 @@ const { reduceUserDetails } = require("../utilities/validators");
 const firebase = require("firebase");
 // firebase.initializeApp(firebaseConfig);
 
-// do this as an immported object later
-const boulder = {
-    name: String,
-    imgLink: String,
-    position: Number,
-    photog: {
-        author: String,
-        Website: String
-    }
-};
-
 exports.getTenBoulders = async (req, res) => {
     try {
         const boulders = [];
-        const response = await db.collection('boulders').limit(7).get();
+        const response = await db.collection('boulders').get();
         response.docs.forEach((ele) => {
-            console.log("\n ... ele.data(): ", ele.data());
             const temp = {
                 name: ele.data().name,
                 imgLink: ele.data().imgLink,
                 Latitude: ele.data().Latitude,
                 Longitude: ele.data().Longitude,
                 author: ele.data().author,
-                website: ele.data().website
+                website: ele.data().website,
+                hint: ele.data().hint
             }
             boulders.push(temp);
         });
+        // randomize and trim to correct array size FIX THIS LATER
+        shuffle(boulders);
+        boulders.pop(0);
+        boulders.pop(0);
         return res.json({ 'boulders': boulders });
 
     } catch (error) {
@@ -37,6 +30,10 @@ exports.getTenBoulders = async (req, res) => {
         return res.error('Error in data.js handler function getTenBoulders');
     }
 };
+
+function shuffle(array) {
+  array.sort(() => Math.random() - 0.5);
+}
 
 // exports.register = (req, res) => {
 //   console.log('\n register cloud function, user data:');

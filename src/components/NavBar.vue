@@ -14,6 +14,13 @@
         </v-list-item-icon>
         <v-list-item-title><router-link class="b" :style="{color: this.$vuetify.theme.dark ? 'white' : 'black'}" to="/">Home</router-link></v-list-item-title>
         </v-list-item>
+
+        <v-list-item>
+          <v-list-item-icon>
+            <v-icon>mdi-information-outline</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title><router-link class="b" :style="{color: this.$vuetify.theme.dark ? 'white' : 'black'}" to="/about">About</router-link></v-list-item-title>
+        </v-list-item>
         <v-list-item>
         <v-list-item-icon>
             <v-icon>mdi-account</v-icon>

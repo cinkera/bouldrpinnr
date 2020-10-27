@@ -21,7 +21,6 @@
 
 <style scoped>
 .hint {
-    text-align: left;
     padding: 5px;
     margin: 2px auto;
 }
