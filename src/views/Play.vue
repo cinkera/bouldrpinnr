@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row class="text-center">
-      <v-col class="mb-4">
+      <v-col class="mb-4 main">
         <v-card class="mx-auto">
             <v-overlay class='overlay' :absolute="absolute" :opacity="opacity" :value="finished">
               <Results :combined='this.combined'/>
@@ -11,17 +11,20 @@
             </v-overlay>
             <v-overlay class='overlay' :absolute="absolute" :opacity="opacity" :value="overlay">
               <div class="img">
-                <v-img :contain="true" :src="this.imageSource"></v-img>
+                <v-img :contain="true" max-height="800" max-width="950" :src="this.imageSource"></v-img>
               </div>
               <div class='bottom' :opacity="opacity">
                 <h3> {{current}} / {{total}} </h3>
-                <v-btn active-class="hide" color="orange lighten-2" outlined @click="overlay=false">
-                  Hide Overlay
+                <v-btn class="hide butt" color="white" outlined @click="overlay=false">
+                  show the Map
                 </v-btn>
-                <v-btn id="hintsButton" color="orange lighten-2" outlined @click="hint">
-                Hint ({{hints}} left)
+                <v-btn class="butt" color="white" outlined @click="hintClicked">
+                Gimme a hint ({{hints}} left)
             </v-btn>
-              </div>
+            </div>
+            <div class="hintWrapper">
+              <HintCard v-if="this.showHint===true" :hint='this.hint' />
+            </div>
           </v-overlay>
 
           <div class='map'>
@@ -31,15 +34,18 @@
             <div>
               <h3> {{current}} / {{total}} </h3>
             </div>
-            <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="overlay=true">
+            <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" class="butt" outlined @click="overlay=true">
                 show overlay
             </v-btn>
-            <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="submit">
+            <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" class="butt" outlined @click="submit">
                 Submit
             </v-btn>
-            <v-btn id="hintsButton" :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="hint">
+            <v-btn id="hintsButton" :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" class="butt" outlined @click="hintClicked">
                 Hint ({{hints}} left)
             </v-btn>
+            <div class="hintWrapper" >
+              <HintCard v-if="this.showHint===true" :hint='hint' />
+            </div>
           </div>
         </v-card>
       </v-col>
@@ -50,6 +56,8 @@
 <script>
 import Map from '@/components/Map'
 import Results from '@/components/Results'
+import HintCard from '@/components/HintCard'
+
 import axios from "axios";
 import { db } from '@/firebase'
 import firebaseConfig from '../config'
@@ -59,16 +67,18 @@ var geodist = require('geodist')
 export default {
   name: 'Play',
   data: () => ({
-    loading: false,
+    loading: true,
     finished: false,
     position: null,
     showHint: false,
-    overlay: true,
+    hintThisRound: false,
+    overlay: false,
     absolute: true,
+    hint: '',
     hints: 2,
     activeFormation: 0,
     current: 1,
-    total: 4,
+    total: 7,
     totalDistance: 0,
     opacity: .9,
     boulders: [],
@@ -77,15 +87,18 @@ export default {
   }),
   computed: {
     imageSource() {
-      const link =  this.boulders[this.activeFormation].imgLink;
-      return link;
+      if(this.loading === false) {
+        console.log("\n ... this.boulders[activeFormation]: ", this.boulders[this.activeFormation]);
+        const link =  this.boulders[this.activeFormation].imgLink;
+        return link;
+      } else return ''
     }
   },
   components: {
-    Map, Results
+    Map, Results, HintCard
   },
   mounted() {
-    this.getBoulders(4);
+    this.getBoulders(this.total);
   },
   methods: {
     async submit() {
@@ -118,6 +131,7 @@ export default {
           this.combineResults();
         } else {
           // reset and go to next formation
+          this.hintThisRound = false;
           this.position = null; // reset guess for next one
           this.activeFormation++;
           this.current++;
@@ -125,13 +139,20 @@ export default {
         }
       }
     },
-    hint() {
+    hintClicked() {
+      this.hint = 'testing';
       console.log('hint clicked');
-      if(this.hints == 0) {
-        alert('no hints left this game!');
+      console.log("\nthis.hintThisRound: ", this.hintThisRound, 
+                  "\nthis.hints: ", this.hints);
+      if(this.hintThisRound === false) {
+        if(this.hints > 0 ) {
+          console.log('\n ... show hint');
+          this.showHint = true;
+          this.hints-=1;
+          this.hintThisRound = true;
+        }
       } else {
-        alert(this.boulders[this.activeFormation].hint);
-        this.hints-=1;
+        console.log("\n ... dont show hint");
       }
     },
     setPin(position) {
@@ -146,8 +167,18 @@ export default {
                 'content-type': 'application/json',
             }
         });
+
         this.boulders = res.data.boulders;
-        this.loading = false;
+        // done waiting on backend response
+        if(this.boulders.length > 0) {
+          this.loading = false;
+          this.overlay = true;
+        } else {
+          this.loading = true;
+          this.overlay = false;
+        }
+
+        
       } catch(error) {
         console.log('\n error in getBoulders');
         return res.error('Error in getting Boulders in Play.vue');
@@ -184,26 +215,31 @@ export default {
   padding: 2px;
   padding-right: 3px;
 }
+.butt {
+  /* butt(on)s need spacing */
+  margin: 5px;
+}
 .map {
-    top: 0;
-    height: 90%;
-}
-.formation {
-  border: 1px solid green;
-}
-.hint {
-  border: 1px solid purple;
+  top: 0;
+  height: 90%;
 }
 .overlay {
   display: grid;
 }
 .img {
-  overflow-y: scroll;
-  height: 575px;
-  width: 850px;
+  overflow-y: hidden; 
+  margin-top: 20px;
+  height: 750px;
+  width: 950px;
+}
+.main {
+  height: 800px;
+  width: 1000px;
 }
 .bottom {
+  /* border: 1px solid black; */
+  padding: 3px;
   height: 75px;
-  width: 850px;
+  width: 900px;
 }
 </style>

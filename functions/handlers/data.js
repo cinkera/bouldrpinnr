@@ -15,10 +15,9 @@ const boulder = {
 };
 
 exports.getTenBoulders = async (req, res) => {
-    console.log("\n getTenBoulders Handlers Function, config.id: ", firebaseConfig.config.projectId);
     try {
         const boulders = [];
-        const response = await db.collection('boulders').limit(4).get();
+        const response = await db.collection('boulders').limit(7).get();
         response.docs.forEach((ele) => {
             console.log("\n ... ele.data(): ", ele.data());
             const temp = {
@@ -31,7 +30,6 @@ exports.getTenBoulders = async (req, res) => {
             }
             boulders.push(temp);
         });
-        console.log("\n ... boulders array before responding to front end: ", boulders);
         return res.json({ 'boulders': boulders });
 
     } catch (error) {
