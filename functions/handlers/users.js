@@ -92,6 +92,9 @@ exports.getUserData = (req, res) => {
       } else {
         return res.status(400).json({ user: doc.data});
       }
+    }).catch(err => {
+      console.log(err);
+      return res.Error(err);
     })
 }
 
