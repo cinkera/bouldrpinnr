@@ -38,7 +38,7 @@
                 <h3> {{current}} / {{total}} </h3>
               </div>
               <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" class="butt" outlined @click="overlay=true">
-                  show overlay
+                  Show the Rock
               </v-btn>
               <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" class="butt" outlined @click="submit">
                   Submit
@@ -235,11 +235,9 @@ export default {
 }
 .img {
   overflow-y: hidden; 
-  /* height: 750px;
-  width: 950px; */
 }
 .main {
-  height: 800px;
+  height: 90%px;
   width: 1000px;
 }
 .bottom {
