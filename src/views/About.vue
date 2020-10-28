@@ -3,7 +3,7 @@
         <v-col>
             <v-card class="card mr-1 overline">
                 <div class="top">
-                    <h3> Think you can locate: </h3>
+                    <h3> Think you can locate </h3>
                 </div>
                 <div class="bottom">
                     <ul>
@@ -41,6 +41,7 @@
                         <li>ACCURATE GPS Latitude / Longitude </li>
                         <li>your preffered credentials (name and website) </li>
                         <li>Image of the climb (not huge file pls) </li>
+                        <li>A hint for the image</li>
                     </ul>
                 </div>
             </v-card> 
@@ -84,7 +85,7 @@
     width: 50vh;
 }
 .add {
-    height: 50vh;
+    height: 60vh;
 }
 .top {
     position: relative;
@@ -102,5 +103,6 @@
 }
 .dms {
     cursor: pointer; 
+    text-decoration: underline;
 }
 </style>

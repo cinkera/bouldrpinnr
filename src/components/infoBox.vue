@@ -14,7 +14,7 @@
           </div>
           <div class="note">
             <h4 class="overline mr-1">*This is version 1.0, there will be more rocks and features soon</h4>
-            <h4 class="overline mr-1">*Also ignore any wonky formatting pls</h4>
+            <h4 class="overline mr-1">*Also ignore any wonky formatting on mobile pls</h4>
           </div>
         </v-card>
       </v-col>
@@ -27,7 +27,6 @@
     name: 'infoBox',
     methods: {
       play() {
-        console.log("\n play clicked \n");
         this.$router.push({path: '/play'});
       }
     },
@@ -51,4 +50,3 @@
   height: 10%;
 }
 </style>
-

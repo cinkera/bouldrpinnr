@@ -61,7 +61,6 @@
 import Map from '@/components/Map'
 import Results from '@/components/Results'
 import HintCard from '@/components/HintCard'
-
 import axios from "axios";
 import { db } from '@/firebase'
 import firebaseConfig from '../config'
@@ -92,7 +91,6 @@ export default {
   computed: {
     imageSource() {
       if(this.loading === false) {
-        console.log("\n ... this.boulders[activeFormation]: ", this.boulders[this.activeFormation]);
         const link =  this.boulders[this.activeFormation].imgLink;
         return link;
       } else return ''
@@ -149,19 +147,15 @@ export default {
       }
     },
     hintClicked() {
-      console.log('hint clicked');
       this.hint = this.boulders[this.activeFormation].hint;
-      console.log("\nthis.hintThisRound: ", this.hintThisRound, 
-                  "\nthis.hints: ", this.hints);
       if(this.hintThisRound === false) {
         if(this.hints > 0 ) {
-          console.log('\n ... show hint');
           this.showHint = true;
           this.hints-=1;
           this.hintThisRound = true;
         }
       } else {
-        console.log("\n ... dont show hint");
+
       }
     },
     creditClicked() {
@@ -179,9 +173,8 @@ export default {
                 'content-type': 'application/json',
             }
         });
-
-        this.boulders = res.data.boulders;
         // done waiting on backend response
+        this.boulders = res.data.boulders;
         if(this.boulders.length > 0) {
           this.loading = false;
           this.overlay = true;
@@ -189,8 +182,6 @@ export default {
           this.loading = true;
           this.overlay = false;
         }
-
-        
       } catch(error) {
         console.log('\n error in getBoulders');
         return res.error('Error in getting Boulders in Play.vue');
@@ -199,7 +190,6 @@ export default {
     // // calculate distance for GPS coords function
     async calculateDistance(lat1, lon1, lat2, lon2) {
       var dist = geodist({lat: lat1, lon: lon1}, {lat: lat2, lon: lon2});
-      console.log('\n ... dist: ', dist);
       return dist;
     },
     combineResults() {
@@ -215,7 +205,6 @@ export default {
         tmp++;
       })
       this.combined = comb;
-      console.log("\n combined: ", comb);
     }
   }  
 }
