@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
+import config from './config';
 import { auth } from './firebase'
 
 // Plugins
@@ -13,7 +14,13 @@ import "@/plugins/vuelidate";
 Vue.config.productionTip = false
 
 // Localhost
+// axios URL for when hosted??
 axios.defaults.baseURL = 'http://localhost:5000/bouldpinnr/us-central1/api';
+
+// request URL = https://console.firebase.google.com/project/bouldpinnr/database/data/getTenBoulders
+// response URL = project/bouldpinnr/database/data/getTenBoulders
+
+// axios.defaults.baseURL = config.firebaseConfig.authDomain;
 
 const TOKEN = localStorage.FBIdToken;
 if (TOKEN) {

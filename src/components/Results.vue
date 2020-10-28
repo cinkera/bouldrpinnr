@@ -39,23 +39,24 @@ export default {
 .wrapper {
     width: 100%;
     overflow-y: scroll;
-    height: 850px;
+    height: 100vh;
 }
 .card { 
     border: 1px solid white;
-    width: 700px;
-    height: 250px;
+    width: 90vw;
+    height: 35vh;
     margin: 5px auto;
 }
 .boulder {
     margin: auto;
-    width: 50%;
-    float: left;
+    width: 90vw;
+    float: top;
 }
 .result {
-    margin: 100px auto;
-    width: 50%;
-    float: right;
+    margin: auto;
+    bottom: 0px;
+    width: 90vw;
+    float: bottom;
 }
 .butt {
     margin: 5px;

@@ -2,7 +2,7 @@
   <v-container>
     <v-row class="text-center">
       <v-col class="mb-4 main">
-        <v-card class="mx-auto">
+        <v-card class="mx-auto wrap">
             <v-overlay class='overlay' :absolute="absolute" :opacity="opacity" :value="finished">
               <Results :combined='this.combined'/>
             </v-overlay>
@@ -11,7 +11,7 @@
             </v-overlay>
             <v-overlay class='overlay' :absolute="absolute" :opacity="opacity" :value="overlay">
               <div class="img">
-                <v-img class="mx-auto center" max-height="750" max-width="800" :src="this.imageSource"></v-img>
+                <v-img class="mx-auto center" max-width="70vh" max-height="70vh" :src="this.imageSource"></v-img>
               </div>
               <div class='bottom' :opacity="opacity">
                 <h3> {{current}} / {{total}} </h3>
@@ -22,13 +22,13 @@
                   Gimme a hint ({{hints}} left)
                 </v-btn>
                 <v-btn class="credits" color="white" outlined @click="creditClicked">
-                  <v-icon>mdi-camera</v-icon>{{this.boulders[this.activeFormation].author}}
+                  <v-icon>mdi-camera</v-icon>{{this.author}}
                 </v-btn>
-            </div>
-            <div class="hintWrapper">
-              <HintCard v-if="this.showHint===true" :hint='this.hint' />
-            </div>
-          </v-overlay>
+              </div>
+              <div class="hintWrapper">
+                <HintCard v-if="this.showHint===true" :hint='this.hint' />
+              </div>
+            </v-overlay>
           <div class="gameWrapper" :value="!this.finished">
             <div class='map'>
               <Map @clicked="setPin"/>
@@ -37,13 +37,13 @@
               <div>
                 <h3> {{current}} / {{total}} </h3>
               </div>
-              <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" class="butt" outlined @click="overlay=true">
+              <v-btn class="butt" outlined @click="overlay=true">
                   Show the Rock
               </v-btn>
-              <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" class="butt" outlined @click="submit">
+              <v-btn class="butt" outlined @click="submit">
                   Submit
               </v-btn>
-              <v-btn id="hintsButton" :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" class="butt" outlined @click="hintClicked">
+              <v-btn class="butt" outlined @click="hintClicked">
                   Hint ({{hints}} left)
               </v-btn>
               <div class="hintWrapper" >
@@ -95,6 +95,12 @@ export default {
         console.log("\n ... this.boulders[activeFormation]: ", this.boulders[this.activeFormation]);
         const link =  this.boulders[this.activeFormation].imgLink;
         return link;
+      } else return ''
+    },
+    author() {
+      if(this.loading === false) {
+        const author =  this.boulders[this.activeFormation].author;
+        return author;
       } else return ''
     }
   },
@@ -216,6 +222,9 @@ export default {
 </script>
 
 <style scoped>
+.wrap {
+  height: 90vh;
+}
 .buttons {
   margin: 3px auto;
   width: 90%;
@@ -225,25 +234,37 @@ export default {
 .butt {
   /* butt(on)s need spacing */
   margin: 5px;
+  color: white;
 }
 .map {
   top: 0;
-  height: 90%;
+  height: 80vh;
 }
 .overlay {
+  top: 0;
   display: grid;
+  height: 110vh;
 }
 .img {
-  overflow-y: hidden; 
+  float: center;
+  margin: 2px auto;
+  overflow: hidden;
+  max-width: 100%;
+  width: 75%
 }
 .main {
-  height: 90%px;
-  width: 1000px;
+  width: 100vh;
+  height: 110vh;
 }
 .bottom {
   /* border: 1px solid black; */
+  margin: 2px auto;
   padding: 3px;
-  height: 75px;
-  width: 900px;
+  height: 15%;
+  width: 90vw;
+}
+.hintWrapper {
+  margin: 1px auto;
+  width: 75%;
 }
 </style>

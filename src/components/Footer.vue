@@ -27,6 +27,6 @@
 <style scoped>
 .footer {
     position: sticky;
-    top: 100vh;
+    top: 110%;
 }
 </style>

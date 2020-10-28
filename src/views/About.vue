@@ -3,7 +3,7 @@
         <v-col>
             <v-card class="card mr-1 overline">
                 <div class="top">
-                    <h3> If you share the common love of rocks, prove that you can locate: </h3>
+                    <h3> Think you can locate: </h3>
                 </div>
                 <div class="bottom">
                     <ul>
@@ -12,7 +12,7 @@
                         <li>Trad routes</li>
                         <li>Big walls</li>
                         <li>Mountain Ranges</li>
-                        <li>And more!</li>
+                        <li>And more?</li>
                     </ul>
                 </div>
             </v-card>
@@ -29,17 +29,18 @@
                     </ul>
                 </div>
             </v-card>
-            <v-card class=" card mr-1 overline">
+            <v-card class="card add mr-1 overline">
                 <div class="top">
-                    <h3> If you have rock formations you would like to see in game send them my way!</h3>
-                    <h3> Email: bouldrpinnrSubmission@gmail.com</h3>
+                    <h4> Want to add some rocks to the game?</h4>
+                    <h4> bouldrpinnrSubmission@gmail.com</h4>
+                    <h4> or <span class="dms" @click="dmsClicked">slide in my DMs</span></h4>
                 </div>
                 <div class="bottom">
                     <ul>
-                        <li>name of the climb / rock    </li>
-                        <li>ACCURATE GPS Latitude / Longitude</li>
-                        <li>your preffered credentials (name and website)</li>
-                        <li>Image of the climb (not huge file pls)</li>
+                        <li>name of the climb / rock </li>
+                        <li>ACCURATE GPS Latitude / Longitude </li>
+                        <li>your preffered credentials (name and website) </li>
+                        <li>Image of the climb (not huge file pls) </li>
                     </ul>
                 </div>
             </v-card> 
@@ -50,6 +51,11 @@
 <script>
     export default {
         name: 'About',
+        methods: {
+            dmsClicked() {
+                window.open("https://www.instagram.com/austincinker/", "_blank"); 
+            }
+        },
         data() {
             return {
 
@@ -62,32 +68,39 @@
 .content {
     text-align: center;
     display: grid;
-    height: 400px;
+    height: 30vh;
     padding: 10px;
 }
 .card {
     text-align: center;
     display: grid;
     float: center;
-    height: 300px;
-    padding: 10px;
+    height: 33vh;
+    padding: 5px;
     margin-top: 5px;
 }
 .list {
     float: center;
-    width: 50%;
+    width: 50vh;
 }
 .add {
-    height: 400px;
+    height: 50vh;
 }
 .top {
+    position: relative;
     float: top;
-    height: 60px;
+    top:0;
+    height: 5vh;
+    width: 100%;
 }
 .bottom {
+    top: 10vh;
     float: center;
-    margin: 5px auto;
-    height: 250px;
-    width: 50%;
+    margin: auto;
+    height: 30vh;
+    width: 75%;
+}
+.dms {
+    cursor: pointer; 
 }
 </style>
