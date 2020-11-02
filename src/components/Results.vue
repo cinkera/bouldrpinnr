@@ -43,13 +43,14 @@ export default {
 }
 .card { 
     border: 1px solid white;
-    width: 90vw;
+    border-radius: 0.4em;
+    width: 90%;
     height: 35vh;
     margin: 5px auto;
 }
 .boulder {
     margin: auto;
-    width: 90vw;
+    width: 90%;
     float: top;
 }
 .result {
@@ -61,4 +62,5 @@ export default {
 .butt {
     margin: 5px;
 }
+
 </style>

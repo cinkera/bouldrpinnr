@@ -2,25 +2,19 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import axios from 'axios'
 import vuetify from './plugins/vuetify';
-import config from './config';
+// import config from './config';
 import { auth } from './firebase'
 
 // Plugins
 import jwtDecode from "jwt-decode";
-import axios from 'axios';
 import "@/plugins/vuelidate";
 
 Vue.config.productionTip = false
 
-// Localhost
-// axios URL for when hosted??
-axios.defaults.baseURL = 'http://localhost:5000/bouldpinnr/us-central1/api';
-
-// request URL = https://console.firebase.google.com/project/bouldpinnr/database/data/getTenBoulders
-// response URL = project/bouldpinnr/database/data/getTenBoulders
-
-// axios.defaults.baseURL = config.firebaseConfig.authDomain;
+// axios.defaults.baseURL = 'http://localhost:5000/bouldpinnr/us-central1/api'; // localhost
+axios.defaults.baseURL = 'https://us-central1-bouldpinnr.cloudfunctions.net/api'; // production
 
 const TOKEN = localStorage.FBIdToken;
 if (TOKEN) {
@@ -30,6 +24,7 @@ if (TOKEN) {
     router.push("/");
    } else {
     store.dispatch("user/authenticate", true);
+    // instantiated, change V
     axios.defaults.headers.common["Authorization"] = TOKEN;
     store.dispatch("user/getUserData");
   }

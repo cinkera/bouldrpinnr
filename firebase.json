@@ -13,6 +13,7 @@
   },
   "hosting": {
     "public": "dist",
+    "ignore": ["**, !*"],
     "rewrites": [
       {
         "source": "**",

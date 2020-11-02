@@ -1,6 +1,6 @@
-import GMapsKey from '../config'
+import config from '../../functions/config'
 
-const API_KEY = GMapsKey.GMapsKey;
+const API_KEY = config.GMapsKey;
 const CALLBACK_NAME = 'initMap';
 
 let initialized = !!window.google;

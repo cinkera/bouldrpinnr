@@ -11,7 +11,7 @@
             </v-overlay>
             <v-overlay class='overlay' :absolute="absolute" :opacity="opacity" :value="overlay">
               <div class="img">
-                <v-img class="mx-auto center" max-width="70vh" max-height="70vh" :src="this.imageSource"></v-img>
+                <v-img class="mx-auto center" max-width="65vh" max-height="70vh" :src="this.imageSource"></v-img>
               </div>
               <div class='bottom' :opacity="opacity">
                 <h3> {{current}} / {{total}} </h3>
@@ -37,13 +37,13 @@
               <div>
                 <h3> {{current}} / {{total}} </h3>
               </div>
-              <v-btn class="butt" outlined @click="overlay=true">
+              <v-btn class="butt" :style="{color: this.$vuetify.theme.dark ? 'white' : 'black'}" outlined @click="overlay=true">
                   Show the Rock
               </v-btn>
-              <v-btn class="butt" outlined @click="submit">
+              <v-btn class="butt" :style="{color: this.$vuetify.theme.dark ? 'white' : 'black'}" outlined @click="submit">
                   Submit
               </v-btn>
-              <v-btn class="butt" outlined @click="hintClicked">
+              <v-btn class="butt" :style="{color: this.$vuetify.theme.dark ? 'white' : 'black'}" outlined @click="hintClicked">
                   Hint ({{hints}} left)
               </v-btn>
               <div class="hintWrapper" >
@@ -61,9 +61,8 @@
 import Map from '@/components/Map'
 import Results from '@/components/Results'
 import HintCard from '@/components/HintCard'
-import axios from "axios";
+import axios from 'axios'
 import { db } from '@/firebase'
-import firebaseConfig from '../config'
 import { mapGetters, mapActions, mapState} from 'vuex'
 var geodist = require('geodist')
 
@@ -167,7 +166,7 @@ export default {
     async getBoulders(limit) {
       this.loading = true;
       try {
-        const res = await axios(`/getTenBoulders/`, {
+        const res = await axios(`https://us-central1-bouldpinnr.cloudfunctions.net/api/getTenBoulders/`, {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
@@ -175,6 +174,7 @@ export default {
         });
         // done waiting on backend response
         this.boulders = res.data.boulders;
+        // console.log("\n this.boulders after axios: ", this.boulders);
         if(this.boulders.length > 0) {
           this.loading = false;
           this.overlay = true;
@@ -183,8 +183,8 @@ export default {
           this.overlay = false;
         }
       } catch(error) {
-        console.log('\n error in getBoulders');
-        return res.error('Error in getting Boulders in Play.vue');
+        console.log('\n error in getBoulders', error);
+        error('Error in getting Boulders in Play.vue');
       }
     },
     // // calculate distance for GPS coords function
@@ -212,48 +212,44 @@ export default {
 
 <style scoped>
 .wrap {
-  height: 90vh;
+  height: 100vh;
+  width: 90vw;
 }
 .buttons {
-  margin: 3px auto;
-  width: 90%;
+  height: 10%;
+  float: center;
+  width: 100%;
   padding: 2px;
   padding-right: 3px;
 }
 .butt {
   /* butt(on)s need spacing */
   margin: 5px;
-  color: white;
 }
 .map {
-  top: 0;
-  height: 80vh;
+  height: 80%;
 }
 .overlay {
   top: 0;
   display: grid;
-  height: 110vh;
+  height: 100%;
 }
 .img {
   float: center;
   margin: 2px auto;
   overflow: hidden;
-  max-width: 100%;
-  width: 75%
+  width: 90vw;
 }
 .main {
-  width: 100vh;
-  height: 110vh;
-}
-.bottom {
-  /* border: 1px solid black; */
-  margin: 2px auto;
-  padding: 3px;
-  height: 15%;
-  width: 90vw;
+  height: 150vh;
 }
 .hintWrapper {
   margin: 1px auto;
-  width: 75%;
+  width: 65%;
+}
+.gameWrapper {
+    width: 100%;
+    overflow-y: scroll;
+    height: 100vh;
 }
 </style>
