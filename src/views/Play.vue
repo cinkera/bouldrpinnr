@@ -54,7 +54,7 @@ export default {
 .buttons {
   margin: 3px auto;
   width: 90%;
-  padding: 2px;
+  padding: 5px 10px;
   padding-right: 3px;
   border: 1px solid black;
 }

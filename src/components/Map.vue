@@ -38,7 +38,6 @@ export default {
       try {
         const initialPosition = { lat: 37.0902, lng: -95.7129 };
         this.google = await gmapsInit();
-
         this.map = new this.google.maps.Map(document.getElementById("map"), {
           center: initialPosition,
           zoom: 6
@@ -72,13 +71,10 @@ export default {
           });
         });
 
-        
-
         this.pin = new this.google.maps.Marker({ map: this.map });
         this.map.addListener("click", event => {
           let latM = event.latLng.lat();
           let lngM = event.latLng.lng();
-
           this.addMarker({ lat: latM, lng: lngM });
           this.dialog = !this.dialog
           this.createdPin.position = { lat: latM, lng: lngM };
@@ -92,7 +88,7 @@ export default {
       this.pin.setPosition(position);
     },
     onClickButton () {
-    //   console.log("\n map clicked, about to emit position: ", this.createdPin.position);
+      // this emits the guess position back to play.vue
       this.$emit('clicked', this.createdPin.position)
     }
   }

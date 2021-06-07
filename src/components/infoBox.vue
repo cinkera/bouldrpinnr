@@ -44,7 +44,8 @@
     name: 'infoBox',
     methods: {
       play() {
-        console.log("\n play clicked \n");
+        // this starts the game, routing user to /play
+        // query for game type TODO
         this.$router.push({path: '/play'});
       }
     },
