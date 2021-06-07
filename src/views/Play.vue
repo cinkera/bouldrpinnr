@@ -15,7 +15,7 @@
               </div>
               <div class='bottom' :opacity="opacity">
                 <h3> {{current}} / {{total}} </h3>
-                <v-btn class="hide butt" color="white" outlined @click="overlay=false">
+                <v-btn class="hide butt" :style="{color: this.$vuetify.theme.dark ? 'white' : 'black'}" color="white" outlined @click="overlay=false">
                   show the Map
                 </v-btn>
                 <v-btn class="butt" color="white" outlined @click="hintClicked">

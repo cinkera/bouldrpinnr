@@ -13,8 +13,8 @@
             </v-btn>
           </div>
           <div class="note">
-            <h4 class="overline mr-1">*This is version 1.0, there will be more rocks and features soon</h4>
-            <h4 class="overline mr-1">*Also ignore any wonky formatting on mobile pls</h4>
+            <!-- <h4 class="overline mr-1">*This is version 1.0, there will be more rocks and features soon</h4> -->
+            <!-- <h4 class="overline mr-1">*Also ignore any wonky formatting on mobile pls</h4> -->
           </div>
         </v-card>
       </v-col>
@@ -37,16 +37,18 @@
 
 <style scoped>
 .wrapper {
-  margin: 10px auto;
-  padding: 10px;
+  margin: 5px auto;
+  padding: 5px;
+  height: 30vh;
+  width: 90vw;
 }
 .title {
   height: 25%;
 }
 .buttons {
-  height: 50%
+  height: 30%
 }
 .note{
-  height: 10%;
+  height: 15%;
 }
 </style>
