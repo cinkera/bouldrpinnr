@@ -26,7 +26,7 @@ export default {
     },
     created() {
         console.log("\n results mounted");
-        console.log(this.combined)
+        console.log("\n combined: ", this.combined);
     },
     data() {
         return {

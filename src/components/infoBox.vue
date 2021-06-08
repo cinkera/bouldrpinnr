@@ -5,20 +5,8 @@
         <!-- Eventually make this a component -->
         <v-card class="mx-auto" height="400" max-width="600">
           <div class="overline mr-1 inf">
-          <h3>We will show you 10 pictures of rock formations from around the world, 
-              and your job is to pin them on the map as close as you can!</h3>
+          <h3>BouldrPinnr will test your abilities to geographically locate rock formations!</h3>
           </div>
-        </v-card>
-        <!-- end -->
-      </v-col>
-    </v-row>  
-    <v-row class="text-center">
-      <v-col class="mb-4">
-        <!-- <h1 class="display-2 mb-3">
-          Welcome to BouldrPinnr
-        </h1> -->
-
-        <v-card class="mx-auto" height="200" max-width="600">
           <v-list-item three-line>
             <v-list-item-content>
               <div class="overline mr-1">
@@ -34,8 +22,9 @@
             Pin some climbs
           </v-btn>
         </v-card>
+        <!-- end -->
       </v-col>
-    </v-row>
+    </v-row>  
   </v-container>
 </template>
 

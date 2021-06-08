@@ -3,12 +3,18 @@
     <v-row class="text-center">
       <v-col class="mb-4 main">
         <v-card class="mx-auto wrap">
+
+            <!-- results overlay -->
             <v-overlay class='overlay' :absolute="absolute" :opacity="opacity" :value="finished">
               <Results :combined='this.combined'/>
             </v-overlay>
+
+            <!-- loading overlay -->
             <v-overlay class='overlay' :absolute="absolute" :opacity="opacity" :value="loading">
               Loading!!
             </v-overlay>
+
+            <!-- Active Formation overlay -->
             <v-overlay class='overlay' :absolute="absolute" :opacity="opacity" :value="overlay">
               <div class="img">
                 <v-img class="mx-auto center" max-width="65vh" max-height="70vh" :src="this.imageSource"></v-img>
@@ -29,6 +35,8 @@
                 <HintCard v-if="this.showHint===true" :hint='this.hint' />
               </div>
             </v-overlay>
+          
+          <!-- Active game wrapper -->
           <div class="gameWrapper" :value="!this.finished">
             <div class='map'>
               <Map @clicked="setPin"/>
@@ -120,6 +128,7 @@ export default {
                           this.boulders[this.activeFormation].Latitude, 
                           this.boulders[this.activeFormation].Longitude); 
         // update total score / distance, set result
+        // console.log("\n distance for this guess: ", dist);
         this.totalDistance += dist;
         const result = {
           pinnedLocation: this.position,
@@ -127,8 +136,10 @@ export default {
           points: this.totalDist,
           hintUsed: this.hintThisRound
         }
+        // console.log("\n this result being pushed: ", result);
         this.results.push(result);
         // check iteration and go to next one or finish
+        console.log("\n ... TOTAL CLIMBS: ", this.total, " \n ... CURRENT: ", this.current);
         if(this.current == this.total) {
           // this game is finished
           this.finished = true;
@@ -154,10 +165,11 @@ export default {
           this.hintThisRound = true;
         }
       } else {
-
+        alert("Only one hint per round!");
       }
     },
     creditClicked() {
+      // open new window with photo credited info
       window.open(this.boulders[this.activeFormation].website, "_blank"); 
     },
     setPin(position) {
@@ -174,6 +186,7 @@ export default {
         });
         // done waiting on backend response
         this.boulders = res.data.boulders;
+        this.boulders.pop();
         // console.log("\n this.boulders after axios: ", this.boulders);
         if(this.boulders.length > 0) {
           this.loading = false;
@@ -195,16 +208,21 @@ export default {
     combineResults() {
       const comb = [];
       var tmp = 0;
+      // console.log("\n COMBINERESULTS\n\n this.boulders: ", this.boulders);
+      // console.log("\n this.results: ", this.results);
       this.boulders.forEach((ele) => {
         const temp = {
           name: ele.name,
           distance: this.results[tmp].distanceAway,
           imgLink: ele.imgLink
         };
+        // console.log("\n temp results before setting combined: ", temp);
         comb.push(temp);
         tmp++;
       })
+      
       this.combined = comb;
+      // console.log("\n combined results: ", this.combined);
     }
   }  
 }
@@ -216,6 +234,7 @@ export default {
   width: 90vw;
 }
 .buttons {
+  border: 1px solid red;
   height: 10%;
   float: center;
   width: 100%;
@@ -241,7 +260,10 @@ export default {
   width: 90vw;
 }
 .main {
+  min-width: 400px;
   height: 150vh;
+  width: 90%;
+  /* border: 1px solid green; */
 }
 .hintWrapper {
   margin: 1px auto;

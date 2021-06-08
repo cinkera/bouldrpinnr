@@ -1,6 +1,6 @@
 <template>
 <v-card class="overflow-y-hidden" :style="{height: drawer ? '400px' : '60px'}">
-<v-app-bar color="deep-purple">
+<v-app-bar color="deep-purple" class="wrapper">
     <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
     <v-toolbar-title><router-link class="a" to="/">BouldrPinnr</router-link></v-toolbar-title>
     <v-spacer></v-spacer>
@@ -51,6 +51,9 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+  width: 100%;
+}
 .a {
   text-decoration: none;
   color: white;
