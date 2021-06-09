@@ -4,7 +4,7 @@ const firebaseConfig = require("../config.js")
 
 admin.initializeApp({
   credential: admin.credential.applicationDefault(),
-  databaseURL: firebaseConfig.firebaseConfig.databaseURL
+  databaseURL: firebaseConfig.config.databaseURL
 });
 
 

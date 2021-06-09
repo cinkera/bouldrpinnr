@@ -15,6 +15,7 @@ Vue.config.productionTip = false
 // Localhost
 axios.defaults.baseURL = 'http://localhost:5000/bouldpinnr/us-central1/api';
 
+
 const TOKEN = localStorage.FBIdToken;
 if (TOKEN) {
   const decodedToken = jwtDecode(TOKEN);

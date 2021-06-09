@@ -1,11 +1,11 @@
 <template>
     <div class="wrapper">
-        <v-card class='card' v-for="(boulder,  index) in this.combined" :key="index">
+        <v-card class='card' v-for="(boulder,  index) in this.combined" :key="index" :contain='true'>
             <div class="boulder">
                 {{boulder.name}}
                 <v-img class="mx-auto center" :contain='true' max-height="200" max-width="400" :src="boulder.imgLink"></v-img>
             </div>
-            <div class="result">
+            <div class="result" :contain='true'>
                 Your guess was 
                 {{ boulder.distance}}
                 Miles away!
@@ -44,8 +44,8 @@ export default {
 .card { 
     border: 1px solid white;
     border-radius: 0.4em;
-    width: 90%;
-    height: 35vh;
+    width: 80%;
+    height: 35%;
     margin: 5px auto;
 }
 .boulder {
@@ -54,13 +54,12 @@ export default {
     float: top;
 }
 .result {
-    margin: auto;
+    margin: 5px auto;
     bottom: 0px;
-    width: 90vw;
+    width: 100%;
     float: bottom;
 }
 .butt {
     margin: 5px;
 }
-
 </style>

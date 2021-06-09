@@ -16,6 +16,10 @@ export default {
   components: {
     NavBar, Footer
   },
+  created() {
+    // default dark mode
+    this.$vuetify.theme.dark = true;
+  },
   data: () => ({
 
   }),

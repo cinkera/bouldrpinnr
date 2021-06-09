@@ -11,11 +11,11 @@
 
             <!-- loading overlay -->
             <v-overlay class='overlay' :absolute="absolute" :opacity="opacity" :value="loading">
-              Loading!!
+              Loading your rock fomrations!
             </v-overlay>
 
             <!-- Active Formation overlay -->
-            <v-overlay class='overlay' :absolute="absolute" :opacity="opacity" :value="overlay">
+            <v-overlay class='overlay active' :absolute="absolute" :opacity="opacity" :value="overlay">
               <div class="img">
                 <v-img class="mx-auto center" max-width="65vh" max-height="70vh" :src="this.imageSource"></v-img>
               </div>
@@ -41,7 +41,8 @@
             <div class='map'>
               <Map @clicked="setPin"/>
             </div>
-            <div class='buttons'>
+
+            <v-overlay class='buttons' :value="(!overlay && !finished)">
               <div>
                 <h3> {{current}} / {{total}} </h3>
               </div>
@@ -57,7 +58,7 @@
               <div class="hintWrapper" >
                 <HintCard v-if="this.showHint===true" :hint='hint' />
               </div>
-            </div>
+            </v-overlay>
           </div>
         </v-card>
       </v-col>
@@ -83,6 +84,7 @@ export default {
     showHint: false,
     hintThisRound: false,
     overlay: false,
+    buttons: false,
     absolute: true,
     hint: '',
     hints: 2,
@@ -175,7 +177,7 @@ export default {
     setPin(position) {
       this.position = position;
     },
-    async getBoulders(limit) {
+    async getBoulders() {
       this.loading = true;
       try {
         const res = await axios(`https://us-central1-bouldpinnr.cloudfunctions.net/api/getTenBoulders/`, {
@@ -187,7 +189,7 @@ export default {
         // done waiting on backend response
         this.boulders = res.data.boulders;
         this.boulders.pop();
-        // console.log("\n this.boulders after axios: ", this.boulders);
+        console.log("\n this.boulders after axios: ", this.boulders);
         if(this.boulders.length > 0) {
           this.loading = false;
           this.overlay = true;
@@ -229,49 +231,66 @@ export default {
 </script>
 
 <style scoped>
+.main {
+  min-width: 400px;
+  height: 110vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
 .wrap {
-  height: 100vh;
+  order: 1;
+  height: 80%;
   width: 90vw;
+  min-width: 400px;
 }
 .buttons {
-  border: 1px solid red;
-  height: 10%;
-  float: center;
-  width: 100%;
-  padding: 2px;
-  padding-right: 3px;
+  order: 2;
+  min-width: 400px;
+  height: 20%;
+  margin: 10px auto;
+  width: 60%;
+  padding: 5px;
+  margin-bottom: 10px;
+  position: sticky;
+  /* background: rgba(93, 93, 93); */
+  border-radius: 0.5em;
+  z-index: 5;
+}
+.active {
+  z-index: 6;
 }
 .butt {
   /* butt(on)s need spacing */
   margin: 5px;
+  size: 1em;
 }
 .map {
-  height: 80%;
+  height: 100%;
+  min-width: 400px;
 }
 .overlay {
   top: 0;
   display: grid;
   height: 100%;
+  min-width: 400px;
 }
 .img {
   float: center;
   margin: 2px auto;
   overflow: hidden;
   width: 90vw;
-}
-.main {
   min-width: 400px;
-  height: 150vh;
-  width: 90%;
-  /* border: 1px solid green; */
 }
+
 .hintWrapper {
   margin: 1px auto;
   width: 65%;
 }
 .gameWrapper {
+    min-width: 400px;
     width: 100%;
-    overflow-y: scroll;
-    height: 100vh;
+    overflow-y: none;
+    height: 90%;
 }
 </style>
