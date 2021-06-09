@@ -1,4 +1,5 @@
-const { admin, db, config } = require("../utilities/admin");
+ /* eslint-disable */
+ const { admin, db, config } = require("../utilities/admin");
 const { reduceUserDetails } = require("../utilities/validators");
 const firebase = require("firebase");
 firebase.initializeApp(config);

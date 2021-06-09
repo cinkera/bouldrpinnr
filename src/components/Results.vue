@@ -40,10 +40,11 @@ export default {
     width: 100%;
     overflow-y: scroll;
     height: 100vh;
+    background: rgba(93, 93, 93, 0.8);
 }
 .card { 
-    border: 1px solid white;
-    border-radius: 0.4em;
+    /* border: 1px solid white; */
+    border-radius: 0.5em;
     width: 80%;
     height: 35%;
     margin: 5px auto;

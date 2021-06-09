@@ -5,13 +5,13 @@
         <v-card class="mx-auto wrap">
 
             <!-- results overlay -->
-            <v-overlay class='overlay' :absolute="absolute" :opacity="opacity" :value="finished">
+            <v-overlay class='overlay results' :absolute="absolute" :opacity="opacity" :value="finished">
               <Results :combined='this.combined'/>
             </v-overlay>
 
             <!-- loading overlay -->
             <v-overlay class='overlay' :absolute="absolute" :opacity="opacity" :value="loading">
-              Loading your rock fomrations!
+              Loading your rock formations!
             </v-overlay>
 
             <!-- Active Formation overlay -->
@@ -28,7 +28,7 @@
                   Gimme a hint ({{hints}} left)
                 </v-btn>
                 <v-btn class="credits" color="white" outlined @click="creditClicked">
-                  <v-icon>mdi-camera</v-icon>{{this.author}}
+                  <v-icon>mdi-camera</v-icon> {{ this.author }}
                 </v-btn>
               </div>
               <div class="hintWrapper">
@@ -188,7 +188,7 @@ export default {
         });
         // done waiting on backend response
         this.boulders = res.data.boulders;
-        this.boulders.pop();
+        // this.boulders.pop();
         console.log("\n this.boulders after axios: ", this.boulders);
         if(this.boulders.length > 0) {
           this.loading = false;
@@ -253,12 +253,14 @@ export default {
   padding: 5px;
   margin-bottom: 10px;
   position: sticky;
-  /* background: rgba(93, 93, 93); */
+  /* background: rgba(93, 93, 93, .8); */
   border-radius: 0.5em;
   z-index: 5;
 }
 .active {
   z-index: 6;
+  width: 100%;
+  height: 100%;
 }
 .butt {
   /* butt(on)s need spacing */
@@ -292,5 +294,9 @@ export default {
     width: 100%;
     overflow-y: none;
     height: 90%;
+}
+.results {
+  margin: auto;
+  width: 100%;
 }
 </style>

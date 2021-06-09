@@ -15,4 +15,8 @@ npm run serve
 firebase serve --only functions
 
 
+# to deploy
+firebase deploy
+
+
 
