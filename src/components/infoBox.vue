@@ -5,7 +5,7 @@
         <!-- Eventually make this a component -->
         <v-card class="mx-auto" height="400" max-width="600">
           <div class="overline mr-1 inf">
-          <h3>BouldrPinnr will test your abilities to geographically locate rock formations!</h3>
+          <h3>BouldrPinnr will test your abilities to geographically locate rock formations</h3>
           </div>
           <v-list-item three-line>
             <v-list-item-content>

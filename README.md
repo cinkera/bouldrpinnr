@@ -6,17 +6,27 @@ Pin boulder problems / clifflines / individual routes / mountain ranges etc on t
 Get a score based on accuracy of your pins! (and maybe time depending on the mode) 
 
 
-# CLI 
+# install dependencies
+npm install 
 
-npm install &&
+# serve locally
 npm run serve
 
-/functions
+# preview built package locally
+serve -s dist
+
+# build
+npm run build
+
+# build firebase project
+firebase init
+
+# host through firebase
+firebase deploy --only hosting
+
+# to deploy cloud functions
+navigate to /functions
 firebase serve --only functions
-
-
-# to deploy
-firebase deploy
 
 
 

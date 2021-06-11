@@ -189,7 +189,7 @@ export default {
         // done waiting on backend response
         this.boulders = res.data.boulders;
         // this.boulders.pop();
-        console.log("\n this.boulders after axios: ", this.boulders);
+        // console.log("\n this.boulders after axios: ", this.boulders);
         if(this.boulders.length > 0) {
           this.loading = false;
           this.overlay = true;

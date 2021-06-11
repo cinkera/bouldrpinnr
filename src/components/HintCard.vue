@@ -9,7 +9,7 @@
         name: "HintCard",
         props: ['hint'],
         mounted() {
-            console.log('\n\nhintCard mounted, this.hint: ', this.hint);
+            // console.log('\n\nhintCard mounted, this.hint: ', this.hint);
         },
         data () {
             return {
