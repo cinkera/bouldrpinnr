@@ -8,7 +8,6 @@ const { db } = require("./utilities/admin");
 app.use(cors({ origin: 'https://bouldpinnr.web.app' })); 
 // app.use(cors({ origin: '*' })); 
 
-
 const {
     login,
     register,

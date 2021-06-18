@@ -11,10 +11,12 @@
 <script>
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
+import UploadButton from 'vuetify-upload-button';
+
 export default {
   name: 'App',
   components: {
-    NavBar, Footer
+    NavBar, Footer,'upload-btn': UploadButton
   },
   created() {
     // default dark mode

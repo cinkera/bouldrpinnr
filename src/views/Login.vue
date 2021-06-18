@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class='wrapper'>
     <v-row class="text-center">
       <v-col class="mb-4">
         <v-card class="mx-auto" height="600" max-width="700">
@@ -10,16 +10,23 @@
                 <h1>Welcome Back!</h1>
                 <div>
                 </div>
-                  <!-- <v-text-field v-model="email" :error-messages="emailErrors" label="Email" required
-                    @input="$v.email.$touch()" @blur="$v.email.$touch()"></v-text-field>
-                  <v-text-field v-model="password1" :error-messages="passwordErrors" label="Password" required
-                    @input="$v.password1.$touch()" @blur="$v.email.$touch()"></v-text-field>
+                  <v-text-field v-model="Lemail" :error-messages="emailErrors" label="Email" required></v-text-field>
+                    <div class="left">
+                        <v-text-field v-model="Lpassword" :type="passwordLFieldType"  :error-messages="passwordErrors" label="Password" required></v-text-field>
+                    </div>
+                    <div class="right">
+                        <v-icon v-if="this.passwordLFieldType=='password'" @click="switchVisibilityL">mdi-eye-outline</v-icon> 
+                        <v-icon v-if="this.passwordLFieldType=='text'" @click="switchVisibilityL">mdi-eye-off-outline</v-icon> 
+                    </div>
+                  
                 <div class="buttons">
-                  <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="forgot">Forgot Password</v-btn> 
-                  <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="signin">Sign In</v-btn> -->
-                <!-- </div> -->
+                  <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="forgot()">Forgot Password</v-btn> 
+                  <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="signin()">Sign In</v-btn>
+                  <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="toggleUserAccount()">Create new account</v-btn>
+               </div>
               </form>
             </div>
+
             <div v-if="!userHasAccount" class="col2 form" width="400"> 
               <form>
                 <h1>Sign up to keep track of your results!</h1>
@@ -35,7 +42,8 @@
                   <v-container class="half"> 
                     <div class="cont">
                       <div class="left">
-                        <v-text-field v-model="user.password1" :type="password1FieldType" :error-messages="passwordErrors" label="Password" required
+                        <v-text-field v-model="user.password1" :type="password1FieldType" :error-messages="passwordErrors" 
+                          label="Password" required
                         class="pw"></v-text-field>
                       </div>
                       <div class="right">
@@ -45,7 +53,8 @@
                     </div>
                     <div class="cont">
                       <div class="left">
-                        <v-text-field v-model="user.password2" :type="password2FieldType" :error-messages="passwordErrors" label="Confirm Password" required
+                        <v-text-field v-model="user.password2" :type="password2FieldType" 
+                          :error-messages="passwordErrors" label="Confirm Password" required
                         class="pw"></v-text-field>
                       </div>
                       <div class="right">
@@ -55,11 +64,8 @@
                     </div>
                   </v-container>  
                 </div>
-                <!-- @input="$v.email.$touch()" @blur="$v.email.$touch()" -->
                 <v-spacer></v-spacer>
                 <div class="buttons">
-                  <!-- <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" 
-                    outlined @click="forgot">Forgot Password</v-btn>  -->
                   <v-btn 
                     :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" 
                     outlined 
@@ -69,6 +75,11 @@
                     :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" 
                     outlined 
                     @click="submit">Sign Up
+                  </v-btn> 
+                  <v-btn 
+                    :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" 
+                    outlined 
+                    @click="toggleUserAccount()">Have an account? Log in!
                   </v-btn> 
                 </div>
               </form>
@@ -81,38 +92,94 @@
 </template>
 
 <script> 
-import Vuelidate from 'vuelidate'
+// import Vuelidate from 'vuelidate'
+import { auth, usersCollection } from "@/firebase.js";
+
   export default {
     name: 'Login',
+    data: () => ({
+      error: null,
+      userHasAccount: false,
+      password1FieldType: 'password',
+      password2FieldType: 'password',
+      passwordLFieldType: 'password',
+      verified: false,
+      Lemail: null,
+      Lpassword: null,
+      user: {
+        firstname: null,
+        lastname: null,
+        username: null,
+        email: null,
+        password1: null,
+        password2: null
+      }
+    }),
+    created() {
+      this.clear();
+    },
     methods: {
       submit() {
-        console.log('\n submit clicked');
-        alert("This feature is coming soon!");
-        // firebase
-        //   .auth()
-        //   .createUserWithEmailAndPassword(this.form.email, this.form.password1)
-        //   .then(data => {
-        //     data.user
-        //       .updateProfile({
-        //         displayName: this.form.name
-        //       })
-        //       .then(() => {});
-        //   })
-        //   .catch(err => {
-        //     this.error = err.message;
-        //   });
+        console.log("\n submitted, user: ", this.user);
+        this.verify();
+        if(this.verified) {
+          auth
+          .createUserWithEmailAndPassword(this.user.email, this.user.password1)
+          .then(data => {
+            data.user
+              .updateProfile({
+                displayName: this.user.username
+              })
+              .then(() => {
+                // add to users DB and route to /account
+                this.createNewUser();
+                this.$router.push('/account');
+              });
+          })
+          .catch(err => {
+            this.error = err.message;
+          });
+        } else {
+          alert("check your form inputs!");
+        } 
       },
-      forgot() {
-
+      signin() {
+        auth
+          .signInWithEmailAndPassword(this.Lemail, this.Lpassword)
+          .then(() => {
+            alert('Successfully logged in');
+            this.$router.push('/account');
+          })
+          .catch(error => {
+            alert(error.message);
+          });
+      },
+      verify() {
+        // verify EMAIL correctly still
+        let u = this.user;
+        if((u.firstname && u.lastname && u.email) && (u.password1 === u.password2)) {
+          this.verified = true;
+        }
+      },
+      async createNewUser() {
+        let u = this.user;
+        let uid = auth.currentUser.uid;
+        console.log("\n uid: ", uid);
+        const user = {
+          username: u.username,
+          firstname: u.firstname,
+          lastname: u.lastname,
+          email: u.email,
+        }
+        await usersCollection.doc(uid).set(user);
       },
       clear () {
-        // this.$vuetify.$reset()
-        this.user.firstname = ''
-        this.user.lastname = ''
-        this.user.email = ''
-        this.user.username = ''
-        this.user.password1 = ''
-        this.user.password2 = ''
+        this.user.firstname = null
+        this.user.lastname = null
+        this.user.email = null
+        this.user.username = null
+        this.user.password1 = null
+        this.user.password2 = null
       },
       switchVisibility1() {
         this.password1FieldType = this.password1FieldType === 'password' ? 'text' : 'password'
@@ -120,6 +187,16 @@ import Vuelidate from 'vuelidate'
       switchVisibility2() {
         this.password2FieldType = this.password2FieldType === 'password' ? 'text' : 'password'
       },
+      switchVisibilityL() {
+        this.passwordLFieldType = this.passwordLFieldType === 'password' ? 'text' : 'password'
+      },
+      toggleUserAccount() {
+        this.userHasAccount = !this.userHasAccount;
+      },
+      forgot() {
+        console.log("\n ... forgot password");
+        alert("\n no forgetting yet please");
+      }
     },
     computed: {
       emailErrors () {
@@ -136,20 +213,7 @@ import Vuelidate from 'vuelidate'
         // !this.$v.email.required && errors.push('E-mail is required')
         return errors
       },
-    },
-    data: () => ({
-      userHasAccount: false,
-      password1FieldType: 'password',
-      password2FieldType: 'password',
-      user: {
-        firstname: '',
-        lastname: '',
-        username: '',
-        email: '',
-        password1: '',
-        password2: ''
-      }
-    })
+    }
   }
 </script>
 
@@ -175,5 +239,6 @@ import Vuelidate from 'vuelidate'
 }
 .form {
   padding: 10px;
+  min-width: 450px;
 }
 </style>

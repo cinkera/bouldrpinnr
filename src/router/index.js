@@ -16,6 +16,11 @@ const routes = [
     component: () => import( '../views/Login.vue')
   },
   {
+    path: '/contribute',
+    name: 'contribute',
+    component: () => import( '../views/Contribute.vue')
+  },
+  {
     path: '/play',
     name: 'play',
     component: () => import( '../views/Play.vue')
@@ -23,13 +28,18 @@ const routes = [
   {
     path: '/account',
     name: 'Account',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import('../views/Account.vue'),
     meta: {
       requiresAuth: true
     }
+  },
+  {
+    path: '/adminControlPanel',
+    name: 'AdminControlPanel',
+    component: () => import('../views/adminControl.vue'),
+    meta: {
+      authRequired: true,
+    },
   }
 ]
 
