@@ -27,6 +27,7 @@
         <p>Email: {{user.email}} </p>
         <p>First name: {{dbuser.firstname}}</p>
         <p>Last name: {{dbuser.lastname}}</p>
+        <p>Contributions Accepted: {{dbuser.contributionsAccepted}}</p>
         <p>Email Verified: {{user.emailVerified}} </p>
         <p>Account created: {{user.metadata.creationTime}} </p>
         <p>Last sign in: {{user.metadata.lastSignInTime}} </p>

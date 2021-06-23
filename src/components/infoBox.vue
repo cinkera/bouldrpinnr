@@ -18,7 +18,7 @@
               <!-- <v-list-item-subtitle></v-list-item-subtitle> -->
             </v-list-item-content>
           </v-list-item>
-          <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="play">
+          <v-btn color="deep-purple" outlined @click="play">
             Pin some climbs
           </v-btn>
         </v-card>

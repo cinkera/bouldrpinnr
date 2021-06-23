@@ -1,7 +1,7 @@
 <template>
 <v-card class="overflow-y-hidden" :style="{height: drawer ? '400px' : '60px'}">
 <v-app-bar color="deep-purple" class="wrapper">
-    <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon @click="drawer = true" :style="{color: 'white'}"></v-app-bar-nav-icon>
     <v-toolbar-title><router-link class="a" to="/">BouldrPinnr</router-link></v-toolbar-title>
     <v-spacer></v-spacer>
 </v-app-bar>
@@ -14,7 +14,15 @@
         </v-list-item-icon>
         <v-list-item-title><router-link class="b" :style="{color: this.$vuetify.theme.dark ? 'white' : 'black'}" to="/">Home</router-link></v-list-item-title>
         </v-list-item>
-         <v-list-item>
+
+        <v-list-item>
+        <v-list-item-icon>
+            <v-icon>mdi-chart-bubble</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title><router-link class="b" :style="{color: this.$vuetify.theme.dark ? 'white' : 'black'}" to="/learn">Learn</router-link></v-list-item-title>
+        </v-list-item>
+
+        <v-list-item>
         <v-list-item-icon>
             <v-icon>mdi-upload</v-icon>
         </v-list-item-icon>

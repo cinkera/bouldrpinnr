@@ -21,12 +21,12 @@
                 :style='{margin: "5px auto"}' 
                 class="button center" 
                 color="deep-purple" 
-                @click="this.$router.push('/contribute')">Contribute another one!</v-btn>
+                @click="another()">Contribute another one!</v-btn>
             <v-btn 
                 :style='{margin: "5px auto"}' 
                 class="button center" 
                 color="deep-purple" 
-                @click="this.$router.push('/account')">Exit</v-btn>
+                @click="exit()">Exit</v-btn>
         </div>
         <div class="card" v-if="(!overlay && !loading && !success)">
           <div class="card-body">
@@ -53,7 +53,7 @@
                 <p>Next, upload your image of the formation!</p>
                 <div class="uploadWrap">
                     <input type="file" 
-                        :style='{color: "#7349BD"}'
+                        color="deep-purple"
                         counter 
                         @change="previewImage" 
                         accept="image/*"
@@ -126,14 +126,14 @@ export default {
     async submit() {
         if(!this.user) alert("please make an account to contribute!");
         this.form.user = auth.currentUser;
-        console.log("\n ... formation submit clicked! \n Formation: ", this.form);
+        // console.log("\n ... formation submit clicked! \n Formation: ", this.form);
         let verified = this.verify();
-        console.log("\n ... verified: ", verified);
+        // console.log("\n ... verified: ", verified);
         this.loading = true;
         this.error = false;
         if(verified) {
             // HERE verification and imageupload need to be finished
-            console.log("\n ... VERIFIED, now upload image: ", this.image);
+            // console.log("\n ... VERIFIED, now upload image: ", this.image);
             // uploads image then uploads contribution
             this.onUpload();
         } else {
@@ -213,8 +213,17 @@ export default {
         });
     },
     clear () {
-        // TODO reset all inputs
-        this.form.name = '';
+        // reset all inputs
+        this.imageData = null,
+        this.image = null,
+        this.uploadValue = 0;
+        this.form.name = null;
+        this.form.Latitude = null,
+        this.form.Longitude = null,
+        this.form.imageCredit = null,
+        this.form.creditLink = null,
+        this.form.imageLink = null,
+        this.form.hintSuggestion = null
     },
     pinLocation() {
        this.overlay = true;
@@ -233,6 +242,13 @@ export default {
             this.overlay = true;
             alert("Set a pin or enter the coordinates manually")
         }
+    },
+    another() {
+        this.clear();
+        this.success = false;
+    },
+    exit() {
+        this.$router.push('/account');
     }
   },
   created() {

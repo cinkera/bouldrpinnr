@@ -14,6 +14,7 @@ const storage = firebase.storage()
 // collection references
 const usersCollection = db.collection('users')
 const bouldersCollection = db.collection('boulders')
+const routesCollection = db.collection('routes')
 const contributionsCollection = db.collection('contributions')
 
 // export utils/refs
@@ -22,6 +23,7 @@ export {
   auth,
   usersCollection,
   bouldersCollection,
+  routesCollection,
   contributionsCollection,
   storage,
 }

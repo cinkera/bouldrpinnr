@@ -26,12 +26,32 @@ const routes = [
     component: () => import( '../views/Play.vue')
   },
   {
+    path: '/playv2',
+    name: 'PlayV2',
+    component: () => import( '../views/PlayV2.vue')
+  },
+  {
+    path: '/results',
+    name: 'Results',
+    component: () => import( '../views/Results.vue')
+  },
+  {
     path: '/account',
     name: 'Account',
     component: () => import('../views/Account.vue'),
     meta: {
       requiresAuth: true
     }
+  },
+  {
+    path: '/games',
+    name: 'Games',
+    component: () => import('../views/Games.vue'),
+  },
+  {
+    path: '/learn',
+    name: 'Learn',
+    component: () => import('../views/Learn.vue'),
   },
   {
     path: '/adminControlPanel',
@@ -49,7 +69,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth)
-  console.log('\n router BeforeEach, auth.currentUser: ', auth.currentUser);
+  // console.log('\n router BeforeEach, auth.currentUser: ', auth.currentUser);
   if (requiresAuth && !auth.currentUser) {
     next('/login')
   } else {
