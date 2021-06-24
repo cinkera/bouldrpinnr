@@ -11,22 +11,23 @@
 
         </div>
         <div class="results" v-if="!loading">
-            <v-card class='card' v-for="(boulder,  index) in this.resultArray" :key="index" :contain='true'>
-            <div class="boulder">
-                <h2 class="text-center">{{boulder.name}}</h2>
-                <v-img class="mx-auto center" :contain='true' max-height="200" max-width="400" :src="boulder.imgLink"></v-img>
-            </div>
-            <div class="result" :contain='true'>
-                <h3 class="text-center">Your guess was 
-                {{ boulder.result.distanceAway}}
-                Miles away!</h3>
-            </div>
-         </v-card>
+            <v-card class='card' v-for="(boulder,  index) in this.resultArray" :key="index" :contain='true'
+                    :style="{'width': isMobile ? '95%' : '50%'}">
+                <div class="boulder">
+                    <h2 class="text-center">{{boulder.name}}</h2>
+                    <v-img class="mx-auto center" :contain='true' max-height="200" max-width="400" :src="boulder.imgLink"></v-img>
+                </div>
+                <div class="result" :contain='true'>
+                    <h3 class="text-center">Your guess was 
+                    {{ boulder.result.distanceAway}}
+                    Miles away!</h3>
+                </div>
+            </v-card>
         </div>
 
         <div class="ranking">
             <h2 class="text-center">See how you stack up!</h2>
-            <h3 class="text-center">Your results compared to the global leaderboards will display here</h3>
+            <h3 class="text-center">global leaderboards will display here in the   f  u  t  u  r  e</h3>
         </div>
 
         <div class="buttons">
@@ -36,6 +37,7 @@
 </template>
 
 <script>
+import { isMobile } from 'mobile-device-detect';
 export default {
     name: 'Results',
     props: ['type', 'results'],
@@ -43,7 +45,7 @@ export default {
         error: null,
         loading: false,
         resultArray: null,
-        
+        isMobile
     }),
     components: {
 
@@ -67,12 +69,9 @@ export default {
     width: 100vw;
     display: flex;
     flex-direction: column;
-    /* height: 100vh; */
 }
 .results {
     order: 1;
-    width: 60%;
-    height: 100%;
     margin: 5px auto;
     /* background-color: #7349BD;
     opacity: 0.9; */
@@ -96,7 +95,6 @@ export default {
 .card { 
     /* border: 1px solid white; */
     border-radius: 0.5em;
-    width: 80%;
     height: 50%;
     margin: 5px auto;
 }

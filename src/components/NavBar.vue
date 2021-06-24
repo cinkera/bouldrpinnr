@@ -14,13 +14,13 @@
         </v-list-item-icon>
         <v-list-item-title><router-link class="b" :style="{color: this.$vuetify.theme.dark ? 'white' : 'black'}" to="/">Home</router-link></v-list-item-title>
         </v-list-item>
-
+<!-- 
         <v-list-item>
         <v-list-item-icon>
             <v-icon>mdi-chart-bubble</v-icon>
         </v-list-item-icon>
         <v-list-item-title><router-link class="b" :style="{color: this.$vuetify.theme.dark ? 'white' : 'black'}" to="/learn">Learn</router-link></v-list-item-title>
-        </v-list-item>
+        </v-list-item> -->
 
         <v-list-item>
         <v-list-item-icon>

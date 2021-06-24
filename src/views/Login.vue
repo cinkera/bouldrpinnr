@@ -6,10 +6,9 @@
           <section>
             <div v-if="userHasAccount" class="col2 form"> 
             <div v-if="error" class="alert alert-danger">{{error}}</div>
-            <form action="#" @submit.prevent="submit">
+            <form class="inputs" action="#" @submit.prevent="submit">
                 <h1>Welcome Back!</h1>
                 <div>
-                </div>
                   <v-text-field v-model="Lemail" :error-messages="emailErrors" label="Email" required></v-text-field>
                     <div class="left">
                         <v-text-field v-model="Lpassword" :type="passwordLFieldType"  :error-messages="passwordErrors" label="Password" required></v-text-field>
@@ -18,19 +17,19 @@
                         <v-icon v-if="this.passwordLFieldType=='password'" @click="switchVisibilityL">mdi-eye-outline</v-icon> 
                         <v-icon v-if="this.passwordLFieldType=='text'" @click="switchVisibilityL">mdi-eye-off-outline</v-icon> 
                     </div>
-                  
+                </div>                  
                 <div class="buttons">
-                  <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="forgot()">Forgot Password</v-btn> 
-                  <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="signin()">Sign In</v-btn>
-                  <v-btn :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="toggleUserAccount()">Create new account</v-btn>
+                  <v-btn class="btns" :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="forgot()">Forgot Password</v-btn> 
+                  <v-btn class="btns" :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="signin()">Sign In</v-btn>
+                  <v-btn class="btns" :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="toggleUserAccount()">Create new account</v-btn>
                </div>
               </form>
             </div>
 
-            <div v-if="!userHasAccount" class="col2 form" width="400"> 
-              <form>
-                <h1>Sign up to keep track of your results!</h1>
-                <div>
+            <div v-if="!userHasAccount" class="col2"> 
+              <form class="form">
+                <h2 class="text-center">Sign up for BouldrPinnr</h2>
+                <div class="inputs">
                   <v-text-field v-model="user.firstname" label="First Name" required autofocus
                     ></v-text-field>
                   <v-text-field v-model="user.lastname" label="Last Name" required
@@ -68,17 +67,20 @@
                 <div class="buttons">
                   <v-btn 
                     :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" 
-                    outlined 
+                    class="btns"
+                    outlined
                     @click="clear">Clear
                   </v-btn> 
                   <v-btn 
                     :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" 
-                    outlined 
+                    class="btns" 
+                    outlined
                     @click="submit">Sign Up
                   </v-btn> 
                   <v-btn 
                     :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" 
-                    outlined 
+                    class="btns"
+                    outlined
                     @click="toggleUserAccount()">Have an account? Log in!
                   </v-btn> 
                 </div>
@@ -120,7 +122,7 @@ import { auth, usersCollection } from "@/firebase.js";
     },
     methods: {
       submit() {
-        console.log("\n submitted, user: ", this.user);
+        // console.log("\n submitted, user: ", this.user);
         this.verify();
         if(this.verified) {
           auth
@@ -140,7 +142,7 @@ import { auth, usersCollection } from "@/firebase.js";
             this.error = err.message;
           });
         } else {
-          alert("check your form inputs!");
+          alert("This feature will be available soon!");
         } 
       },
       signin() {
@@ -157,14 +159,15 @@ import { auth, usersCollection } from "@/firebase.js";
       verify() {
         // verify EMAIL correctly still
         let u = this.user;
-        if((u.firstname && u.lastname && u.email) && (u.password1 === u.password2)) {
-          this.verified = true;
-        }
+        this.verified = false; // for STATE OF DEPLOYMENT 
+        // if((u.firstname && u.lastname && u.email) && (u.password1 === u.password2)) {
+        //   this.verified = true;
+        // }
       },
       async createNewUser() {
         let u = this.user;
         let uid = auth.currentUser.uid;
-        console.log("\n uid: ", uid);
+        // console.log("\n uid: ", uid);
         const user = {
           username: u.username,
           firstname: u.firstname,
@@ -194,7 +197,7 @@ import { auth, usersCollection } from "@/firebase.js";
         this.userHasAccount = !this.userHasAccount;
       },
       forgot() {
-        console.log("\n ... forgot password");
+        // console.log("\n ... forgot password");
         alert("\n no forgetting yet please");
       }
     },
@@ -218,6 +221,10 @@ import { auth, usersCollection } from "@/firebase.js";
 </script>
 
 <style scoped>
+.inputs {
+  border: 1px solid white;
+  max-width: 90vw;
+}
 .half {
   display: grid;
   height: 200px;
@@ -240,5 +247,10 @@ import { auth, usersCollection } from "@/firebase.js";
 .form {
   padding: 10px;
   min-width: 450px;
+  max-width: 90%;
 }
+.btns {
+  margin-right: 10px;
+}
+
 </style>

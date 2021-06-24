@@ -17,6 +17,7 @@
     "firebase": "^7.24.0",
     "geodist": "^0.2.1",
     "jwt-decode": "^3.0.0",
+    "mobile-device-detect": "^0.4.3",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vue-svg-map": "^1.2.0",

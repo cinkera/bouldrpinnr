@@ -21,7 +21,7 @@ export default {
     props: ['combined'],
     methods: {
         playAgainClicked() {
-            this.$router.go('/play');
+            this.$router.go('/games');
         }
     },
     created() {

@@ -22,13 +22,8 @@ const routes = [
   },
   {
     path: '/play',
-    name: 'play',
+    name: 'Play',
     component: () => import( '../views/Play.vue')
-  },
-  {
-    path: '/playv2',
-    name: 'PlayV2',
-    component: () => import( '../views/PlayV2.vue')
   },
   {
     path: '/results',

@@ -8,7 +8,8 @@
     <div class="userInfo" v-if="!loading">
 
       <div class="img" v-if="user.photoURL">
-        <v-img class="mx-auto center" max-width="auto" max-height="400px" :src="user.photoURL"></v-img>
+        <v-img v-if="!isMobile" class="mx-auto center" max-width="auto" max-height="500px" :src="user.photoURL"></v-img>
+        <v-img v-if="isMobile" class="mx-auto center" max-width="250px" max-height="400px" :src="user.photoURL"></v-img>
         <v-btn small 
           :style="{margin: '5px'}"
           color="deep-purple"
@@ -28,7 +29,7 @@
         <p>First name: {{dbuser.firstname}}</p>
         <p>Last name: {{dbuser.lastname}}</p>
         <p>Contributions Accepted: {{dbuser.contributionsAccepted}}</p>
-        <p>Email Verified: {{user.emailVerified}} </p>
+        <!-- <p>Email Verified: {{user.emailVerified}} </p> -->
         <p>Account created: {{user.metadata.creationTime}} </p>
         <p>Last sign in: {{user.metadata.lastSignInTime}} </p>
         <!-- <p>Phone Number: {{user.phoneNUmber}} </p> -->
@@ -42,6 +43,7 @@
 <script>
 import { auth, usersCollection, storage } from "@/firebase.js";
 import UploadImage from '../components/upload.vue';
+import { isMobile } from 'mobile-device-detect';
 
 export default {
   name: 'Account',
@@ -56,6 +58,7 @@ export default {
     user: null,
     error: null,
     dbuser: null,
+    isMobile
   }),
   methods: {
     async getUserData() {
@@ -145,17 +148,14 @@ export default {
 <style scoped>
 .wrapper {
   width: 100vw;
-  height: 100vh;
   padding: 5px;
-  min-width: 420px;
 }
 .userInfo {
-  width: 60%;
-  min-width: 450px;
-  height: auto;
+  width: 90vw;
+  min-width: 300px;
   margin: auto;
   padding: 10px;
-  border: 1px solid white;
+  /* border: 1px solid white; */
   border-radius: 0.5em;
   display: flex;
   flex-direction: column;
