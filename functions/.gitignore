@@ -3,5 +3,8 @@ node_modules/
 # config files with API Keys
 config.js
 
+.env
+.env.development
+
 # service account key
 serviceAccountKey.json
