@@ -2,32 +2,33 @@
   <v-container class='wrapper'>
     <v-row class="text-center">
       <v-col class="mb-4">
-        <v-card class="mx-auto" height="600" max-width="700">
+        <v-card class="mx-auto" max-width="600px">
           <section>
+
             <div v-if="userHasAccount" class="col2 form"> 
-            <div v-if="error" class="alert alert-danger">{{error}}</div>
-            <form class="inputs" action="#" @submit.prevent="submit">
-                <h1>Welcome Back!</h1>
-                <div>
-                  <v-text-field v-model="Lemail" :error-messages="emailErrors" label="Email" required></v-text-field>
-                    <div class="left">
-                        <v-text-field v-model="Lpassword" :type="passwordLFieldType"  :error-messages="passwordErrors" label="Password" required></v-text-field>
+              <div v-if="error" class="alert alert-danger">{{error}}</div>
+                <form class="inputs" action="#" @submit.prevent="submit">
+                    <h1>Welcome Back!</h1>
+                    <div>
+                      <v-text-field v-model="Lemail" :error-messages="emailErrors" label="Email" required></v-text-field>
+                        <div class="left">
+                            <v-text-field v-model="Lpassword" :type="passwordLFieldType"  :error-messages="passwordErrors" label="Password" required></v-text-field>
+                        </div>
+                        <div class="right">
+                            <v-icon v-if="this.passwordLFieldType=='password'" @click="switchVisibilityL">mdi-eye-outline</v-icon> 
+                            <v-icon v-if="this.passwordLFieldType=='text'" @click="switchVisibilityL">mdi-eye-off-outline</v-icon> 
+                        </div>
+                    </div>                  
+                    <div class="buttons">
+                        <v-btn class="btns" :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="forgot()">Forgot Password</v-btn> 
+                        <v-btn class="btns" :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="signin()">Sign In</v-btn>
+                        <v-btn class="btns" :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="toggleUserAccount()">Create new account</v-btn>
                     </div>
-                    <div class="right">
-                        <v-icon v-if="this.passwordLFieldType=='password'" @click="switchVisibilityL">mdi-eye-outline</v-icon> 
-                        <v-icon v-if="this.passwordLFieldType=='text'" @click="switchVisibilityL">mdi-eye-off-outline</v-icon> 
-                    </div>
-                </div>                  
-                <div class="buttons">
-                  <v-btn class="btns" :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="forgot()">Forgot Password</v-btn> 
-                  <v-btn class="btns" :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="signin()">Sign In</v-btn>
-                  <v-btn class="btns" :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" outlined @click="toggleUserAccount()">Create new account</v-btn>
-               </div>
-              </form>
+                </form>
             </div>
 
-            <div v-if="!userHasAccount" class="col2"> 
-              <form class="form">
+            <div v-if="!userHasAccount" class="col2 form"> 
+              <form>
                 <h2 class="text-center">Sign up for BouldrPinnr</h2>
                 <div class="inputs">
                   <v-text-field v-model="user.firstname" label="First Name" required autofocus
@@ -96,6 +97,7 @@
 <script> 
 // import Vuelidate from 'vuelidate'
 import { auth, usersCollection } from "@/firebase.js";
+import { isMobile } from 'mobile-device-detect';
 
   export default {
     name: 'Login',
@@ -108,6 +110,7 @@ import { auth, usersCollection } from "@/firebase.js";
       verified: false,
       Lemail: null,
       Lpassword: null,
+      isMobile,
       user: {
         firstname: null,
         lastname: null,
@@ -135,14 +138,16 @@ import { auth, usersCollection } from "@/firebase.js";
               .then(() => {
                 // add to users DB and route to /account
                 this.createNewUser();
+                this.$emit('LoggedIn');
                 this.$router.push('/account');
               });
           })
           .catch(err => {
             this.error = err.message;
+            alert(err.message)
           });
         } else {
-          alert("This feature will be available soon!");
+          alert("Check your information and try again!");
         } 
       },
       signin() {
@@ -150,6 +155,7 @@ import { auth, usersCollection } from "@/firebase.js";
           .signInWithEmailAndPassword(this.Lemail, this.Lpassword)
           .then(() => {
             alert('Successfully logged in');
+            this.$emit('LoggedIn');
             this.$router.push('/account');
           })
           .catch(error => {
@@ -157,12 +163,11 @@ import { auth, usersCollection } from "@/firebase.js";
           });
       },
       verify() {
-        // verify EMAIL correctly still
         let u = this.user;
-        this.verified = false; // for STATE OF DEPLOYMENT 
-        // if((u.firstname && u.lastname && u.email) && (u.password1 === u.password2)) {
-        //   this.verified = true;
-        // }
+        // this.verified = false; // for STATE OF DEPLOYMENT 
+        if((u.firstname && u.lastname && u.email) && (u.password1 === u.password2)) {
+          this.verified = true;
+        }
       },
       async createNewUser() {
         let u = this.user;
@@ -222,8 +227,9 @@ import { auth, usersCollection } from "@/firebase.js";
 
 <style scoped>
 .inputs {
-  border: 1px solid white;
+  /* border: 1px solid white; */
   max-width: 90vw;
+  margin: 5px auto;
 }
 .half {
   display: grid;
@@ -246,7 +252,8 @@ import { auth, usersCollection } from "@/firebase.js";
 }
 .form {
   padding: 10px;
-  min-width: 450px;
+  margin: 5px auto;
+  min-width: 400px;
   max-width: 90%;
 }
 .btns {

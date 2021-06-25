@@ -98,6 +98,14 @@ export default {
   created() {
     this.user = auth.currentUser;
   },
+  watch: {
+    // whenever userchanges, this function will run
+    user: function () {
+      console.log("\n \n user changed in navbar, ", auth.currentUser.displayName, " is now current user");
+      this.user = auth.currentUser;
+      this.$forceUpdate();
+    }
+  },
   data: () => ({
     drawer: false, // header
     group: null, // header

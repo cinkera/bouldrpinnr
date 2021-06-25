@@ -37,10 +37,11 @@
             <form action="#" class="formWrap" @submit.prevent="submit">
               <div class="form-group inputs">
                 <v-spacer></v-spacer>
-                <p>First we will need the name of the climb</p>
+                <p class="centerUnderline">First we will need the name of the climb</p>
                 <v-text-field v-model="form.name" label="Name of the formation" required autofocus
                     ></v-text-field>
-                <p>Then we will need ACCURATE location data for the formation</p>
+                <br>
+                <p class="centerUnderline">Then we will need ACCURATE location data for the formation</p>
                 <p class="half">Either enter GPS coordinates to 5 digits OR pin the location on the map</p>
                 <div class="positionWrap">
                     <v-text-field v-model="form.Latitude" label="Latitude" required
@@ -49,33 +50,60 @@
                         ></v-text-field>
                     <v-btn class="button" color="deep-purple" @click="pinLocation()">Pin the location</v-btn>
                     <p></p>
+                    <br>
                 </div>
-                <p>Next, upload your image of the formation!</p>
+                <p class="centerUnderline">Next, upload your image of the formation!</p>
                 <div class="uploadWrap">
+                    <label class="fileInputLabel">Upload Your Image
                     <input type="file" 
-                        color="deep-purple"
-                        counter 
+                        color="#7349BD"
                         @change="previewImage" 
                         accept="image/*"
                         prepend-icon="mdi-camera"
                         :disabled="processing"
-                    >
-                    <div>
-                        <p>Progress: {{uploadValue.toFixed()+"%"}}
-                        <progress id="progress" :value="uploadValue" max="100" ></progress>  </p>
+                    ></label>
+                    <v-btn
+                        v-if="url"
+                        class="mx-2"
+                        fab
+                        dark
+                        small
+                        color="deep-purple"
+                        @click="removeImage()"
+                        >
+                        <v-icon dark>
+                            mdi-close
+                        </v-icon>
+                    </v-btn>
+                    <div class="progress">
+                        <!-- <p>Progress: {{uploadValue.toFixed()+"%"}}
+                        <progress id="progress" :value="uploadValue" max="100" ></progress>  </p> -->
+                        <p v-if="this.imageData">{{this.imageData.name}}</p>
                     </div>
                     <div v-if="imageData!=null">
-                        <img class="preview" :src="image">
+                        <v-img v-if="isMobile"
+                            class="preview" 
+                            max-width="400px"
+                            max-height="600px" 
+                            :src="url"> </v-img>
+                        <v-img v-if="!isMobile"
+                            class="preview" 
+                            max-width="800px"
+                            max-height="600px" 
+                            :src="url"> </v-img>
                         <br>
                     </div>
                 </div>
                 <p></p>
-                <p>We want to thank contributors by showing photo credits in game and linking to your website</p>
+                <br>
+                <p class="centerUnderline">We want to thank contributors by showing photo credits in game and linking to your website</p>
                 <v-text-field v-model="form.imageCredit" label="Photographer's Name" required
                     ></v-text-field>
                 <v-text-field v-model="form.creditLink" label="Photographer's website" required
                     ></v-text-field>
-                <p>Lastly, give us a hint for this rock! <span class="half">If you leave it blank, we will think of one</span></p>
+                <br>
+                <p class="centerUnderline">Lastly, give us a hint for this rock!</p>
+                <p class="half text-center">If you leave it blank, we will think of one</p>
                 <v-text-field v-model="form.hintSuggestion" label="Suggest a hint"
                     ></v-text-field>
               </div>
@@ -83,6 +111,7 @@
                 <v-btn v-if="this.user" class="button" color="deep-purple" @click="submit">submit your contribution!</v-btn> 
                 <p class="half" v-if="!this.user">Please make an account before you contribute to BouldrPinnr!</p>
                 <v-btn v-if="!this.user" disabled class="button" color="deep-purple" @click="submit">submit your contribution!</v-btn> 
+                <br>
               </div>
             </form>
           </div>
@@ -96,6 +125,7 @@
 import Map from '@/components/Map'
 import UploadImage from '../components/upload.vue';
 import { storage, auth, contributionsCollection } from "@/firebase.js";
+import { isMobile } from 'mobile-device-detect';
 
 export default {
   data() {
@@ -105,10 +135,12 @@ export default {
       uploadValue: 0,
       imageData: null,
       image: null,
+      url: null,
       processing: false,
       position: null,
       overlay: false,
       user: null,
+      isMobile,
       form: {
         name: null,
         Latitude: null,
@@ -161,12 +193,14 @@ export default {
         this.uploadValue=0;
         this.image=event.target.files[0];
         this.imageData = event.target.files[0];
+        this.url = URL.createObjectURL(event.target.files[0])
+        // console.log("\n this image: ", this.image);
     },
     onUpload(){
         this.processing = true;
         this.loading = true;
         this.image=null;
-        console.log("\n ... about to upload ", this.imageData); 
+        // console.log("\n ... about to upload ", this.imageData); 
         const storageRef = storage.ref(`/suggestionImages/${this.imageData.name}`).put(this.imageData);
         storageRef.on(`state_changed`,snapshot=>{
                 this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
@@ -211,6 +245,11 @@ export default {
             this.error = e;
             alert(e.message);
         });
+    },
+    removeImage() {
+        this.url, this.image, this.imageData = null;
+        this.uploadValue = 0;
+        this.$forceUpdate();
     },
     clear () {
         // reset all inputs
@@ -272,7 +311,7 @@ export default {
     width: 80%;
 }
 .card {
-    border: 1px solid white;
+    /* border: 1px solid white; */
     border-radius: 1em;
     width: 90vw;
     min-width: 400px;
@@ -291,16 +330,46 @@ export default {
     padding-top: 10px;
 }
 .uploadWrap {
-    margin: auto;
+    text-align: center;
+    margin: 5px auto;
     width: 80%;
-    border-bottom: 2px solid #7349BD;
+    /* border-bottom: 2px solid #7349BD; */
+}
+.progress {
+    margin: 5px auto;
+    text-align: center;
+}
+.preview {
+    margin: 5px auto;
+}
+.fileInputLabel {
+    position: relative;
+    font-family: calibri;
+    padding: 10px;
+    margin: 2px auto;
+    border-radius: 5px;
+    border: 1px solid #7349BD;
+    text-align: center;
+    /* background-color: #DDD; */
+    cursor: pointer;
+}
+input[type="file"] {
+    display: none;
 }
 .succes {
-    margin: auto;
+    margin: 5px auto;
+    text-align: center;
     width: 60%;
     height: 300px;
     border: 1px solid white;
     border-radius: 0.5em;
+}
+.centerUnderline {
+    text-align: center;
+    /* text-decoration: underline; */
+    padding: 10px 1px;
+    /* text-decoration-color: #7349BD; */
+    border-top: 1px solid #7349BD;
 }
 .info {
     border: 1px solid white;

@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <NavBar />
+    <NavBar/>
+    <!-- <NavBar @loggedIn="setUser"/> -->
     <v-main>
       <router-view></router-view>
     </v-main>
@@ -12,6 +13,7 @@
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import UploadButton from 'vuetify-upload-button';
+// import { auth } from "@/firebase.js";
 
 export default {
   name: 'App',
@@ -23,8 +25,15 @@ export default {
     this.$vuetify.theme.dark = true;
   },
   data: () => ({
-
+    user: null,
+    error: null,
+    loading: false
   }),
+  // methods: {
+  //   setUser() {
+  //     this.user = aut
+  //   }
+  // }
 };
 </script>
 

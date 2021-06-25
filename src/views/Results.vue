@@ -12,7 +12,7 @@
         </div>
         <div class="results" v-if="!loading">
             <v-card class='card' v-for="(boulder,  index) in this.resultArray" :key="index" :contain='true'
-                    :style="{'width': isMobile ? '95%' : '50%'}">
+                    :style="{'width': isMobile ? '95%' : '700px'}">
                 <div class="boulder">
                     <h2 class="text-center">{{boulder.name}}</h2>
                     <v-img class="mx-auto center" :contain='true' max-height="200" max-width="400" :src="boulder.imgLink"></v-img>
@@ -73,8 +73,7 @@ export default {
 .results {
     order: 1;
     margin: 5px auto;
-    /* background-color: #7349BD;
-    opacity: 0.9; */
+
 }
 .ranking {
     width: 60%;
@@ -95,8 +94,12 @@ export default {
 .card { 
     /* border: 1px solid white; */
     border-radius: 0.5em;
-    height: 50%;
+    height: 400%;
     margin: 5px auto;
+}
+.card:hover {
+    background-color: #7349BD;
+    opacity: 0.8;
 }
 .boulder {
     margin: auto;
