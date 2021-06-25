@@ -47,7 +47,7 @@
         <v-list-item-icon>
             <v-icon>mdi-login-variant</v-icon>
         </v-list-item-icon>
-        <v-list-item-title><router-link class="b" :style="{color: this.$vuetify.theme.dark ? 'white' : 'black'}" to="/login">Sign up</router-link></v-list-item-title>
+        <v-list-item-title><router-link class="b" :style="{color: this.$vuetify.theme.dark ? 'white' : 'black'}" to="/login">Sign up / Log in</router-link></v-list-item-title>
         </v-list-item>
 
         <v-list-item>
@@ -82,35 +82,37 @@ export default {
         this.$vuetify.theme.dark = !this.$vuetify.theme.dark
     },
     logout() {
-      auth
-      .signOut()
-      .then(() => {
-        alert('Successfully logged out');
-        this.user = null;
-        this.$router.push('/');
-      })
-      .catch(error => {
-        alert(error.message);
-        this.$router.push('/');
-      });
-    }
-  },
-  created() {
-    this.user = auth.currentUser;
-  },
-  watch: {
-    // whenever userchanges, this function will run
-    user: function () {
-      console.log("\n \n user changed in navbar, ", auth.currentUser.displayName, " is now current user");
-      this.user = auth.currentUser;
-      this.$forceUpdate();
-    }
-  },
-  data: () => ({
-    drawer: false, // header
-    group: null, // header
-    user: null,
-  }),
+      // this.$store.dispatch('signOutAction')
+      // this.$router.push('/');
+        auth
+        .signOut()
+        .then(() => {
+          // alert('Successfully logged out');
+          this.user = null;
+          // this.$store.dispatch('signOutAction')
+          this.$router.push('/');
+        })
+        .catch(error => {
+          alert(error.message);
+          this.$router.push('/');
+        });
+      }
+    },
+    created() {
+      // this.user = auth.currentUser;
+      // console.log("\n ... created navbar, \n auth.currentUser: ", auth.currentUser, 
+      //   "  , \n this.$store.getters.user : ", this.$store.getters.user);
+    },
+    watch: {
+        $route (to, from) {
+          this.user = auth.currentUser;
+        }
+    },
+    data: () => ({
+      drawer: false, // header
+      group: null, // header
+      user: null,
+    }),
 }
 </script>
 

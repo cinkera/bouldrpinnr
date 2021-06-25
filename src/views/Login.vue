@@ -126,6 +126,7 @@ import { isMobile } from 'mobile-device-detect';
     methods: {
       submit() {
         // console.log("\n submitted, user: ", this.user);
+        let u = null;
         this.verify();
         if(this.verified) {
           auth
@@ -138,7 +139,8 @@ import { isMobile } from 'mobile-device-detect';
               .then(() => {
                 // add to users DB and route to /account
                 this.createNewUser();
-                this.$emit('LoggedIn');
+                // this.$emit('LoggedIn');
+                // this.$store.dispatch('signInAction')
                 this.$router.push('/account');
               });
           })
@@ -150,18 +152,22 @@ import { isMobile } from 'mobile-device-detect';
           alert("Check your information and try again!");
         } 
       },
+      // signs user in with vuex firebaseLogin()
       signin() {
         auth
           .signInWithEmailAndPassword(this.Lemail, this.Lpassword)
-          .then(() => {
-            alert('Successfully logged in');
-            this.$emit('LoggedIn');
+          .then((doc) => {
+            // console.log("\n ... doc in signIn() : ", doc);
+            // alert('Successfully logged in');
+            // this.$store.dispatch('signInAction', doc.user.uid)
+            // this.$emit('LoggedIn');
             this.$router.push('/account');
           })
           .catch(error => {
             alert(error.message);
           });
       },
+      // verifies user input is there
       verify() {
         let u = this.user;
         // this.verified = false; // for STATE OF DEPLOYMENT 
@@ -180,7 +186,26 @@ import { isMobile } from 'mobile-device-detect';
           email: u.email,
         }
         await usersCollection.doc(uid).set(user);
+        // .then((doc) => {
+        //   // console.log("\n doc in createNewUser", doc)
+        //   // this.$store.dispatch('signInAction', doc.user.uid)
+        // }).catch((e) => {
+        //   this.error = e;
+        //   alert(e.message);
+        // });
       },
+      // async createNewUser() {
+      //   let u = this.user;
+      //   let uid = auth.currentUser.uid;
+      //   // console.log("\n uid: ", uid);
+      //   const user = {
+      //     username: u.username,
+      //     firstname: u.firstname,
+      //     lastname: u.lastname,
+      //     email: u.email,
+      //   }
+      //   await usersCollection.doc(uid).set(user);
+      // },
       clear () {
         this.user.firstname = null
         this.user.lastname = null
@@ -259,5 +284,4 @@ import { isMobile } from 'mobile-device-detect';
 .btns {
   margin-right: 10px;
 }
-
 </style>

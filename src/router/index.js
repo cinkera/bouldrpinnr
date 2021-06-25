@@ -65,8 +65,14 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth)
   // console.log('\n router BeforeEach, auth.currentUser: ', auth.currentUser);
+
+  // route guard for authenticated pages
   if (requiresAuth && !auth.currentUser) {
     next('/login')
+  } 
+  // Route Guard for Admin Control Page
+  else if(to.name == 'AdminControlPanel' && auth.currentUser.uid != 'dQ2nCzva75ZvgE8Xy6YzRKO8urf2') {
+    next('/contribute')
   } else {
     next()
   }

@@ -17,7 +17,8 @@
       </div>
 
       <div class="photoUpload" v-if="!user.photoURL">
-        <UploadImage :style='{width: "200px"}' 
+        <UploadImage 
+          :style='{width: "70vw"}' 
           :user="this.user"   
           :type="'userImage'"
           @updateDB="updateDB($event)"
@@ -166,19 +167,19 @@ export default {
 }
 .photoUpload {
   order: 1;
-  border: 1px solid green;
+  /* border: 1px solid green; */
   border-radius: 0.5em;
   padding: 5px;
   text-align: center;
-  margin: auto;
-  height: 30vh;
+  margin: 5px auto;
 }
 .infor {
   order: 2;
   margin: 5px auto;
 }
 .loading {
-  margin: auto;
+  margin: 15% auto;
+  text-align: center;
 }
 .input {
   width: 100%;

@@ -54,7 +54,7 @@
                 </div>
                 <p class="centerUnderline">Next, upload your image of the formation!</p>
                 <div class="uploadWrap">
-                    <label class="fileInputLabel">Upload Your Image
+                    <label class="fileInputLabel" v-if="!url">Upload Your Image
                     <input type="file" 
                         color="#7349BD"
                         @change="previewImage" 
@@ -247,7 +247,8 @@ export default {
         });
     },
     removeImage() {
-        this.url, this.image, this.imageData = null;
+        this.url = undefined;
+        this.image, this.imageData = null;
         this.uploadValue = 0;
         this.$forceUpdate();
     },
