@@ -256,6 +256,7 @@ export default {
         // reset all inputs
         this.imageData = null,
         this.image = null,
+        this.url = undefined,
         this.uploadValue = 0;
         this.form.name = null;
         this.form.Latitude = null,
