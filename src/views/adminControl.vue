@@ -14,7 +14,7 @@
             />  
         </div>
         <div class="overlay" v-if="(!mapOverlay && !overlayLoading)">
-            <h2 class="text-center" > Contributions</h2>
+            <h2 class="text-center" > Contributions , Boulders: {{b}}, Routes: {{r}}</h2>
             <!-- Beginning of overlay -->
             <div class="overlayContent">
                 <div class="cwrap" >
@@ -99,6 +99,8 @@ export default {
             overlayIndex: 0,
             overlayLength: 0,
             overlayContent: [],
+            b: 0,
+            r:0,
             loading: false, 
             overlay: false,
             mapOverlay: false,
@@ -186,13 +188,12 @@ export default {
         async getBoulders() {
             console.log("\n ... getting all boulders");
             try {
-                bouldersCollection.get().then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        // if(doc.data().adminChecked === false) this.newContributions++;
-                        this.overlayContent.push(doc.data());
-                    });
-                    this.overlayLoading = false;
-                })
+                bouldersCollection.get().then((doc) => {
+                    this.b = doc.size;
+                });
+                routesCollection.get().then((doc) => {
+                    this.r = doc.size;
+                });
             } catch(e) {
                 console.log(e);
                 alert(e.message);
@@ -369,6 +370,7 @@ export default {
             this.$router.push('/');
         } else {
             this.getContributions();
+            this.getBoulders();
         }
     }
 }
