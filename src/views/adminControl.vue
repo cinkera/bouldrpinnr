@@ -19,6 +19,7 @@
              <!-- <h2 class="text-center">Routes: {{r}}</h2> -->
             <router-link class="text-center" to="/allroutes">Routes: {{r}}</router-link>
             <router-link class="text-center" to="/allboulders">Boulders: {{b}}</router-link>
+            <router-link class="text-center" to="/allusers">Users: {{u}}</router-link>
             <!-- Beginning of overlay -->
             <div class="overlayContent">
                 <div class="cwrap" >
@@ -104,6 +105,7 @@ export default {
             overlayContent: [],
             b: 0,
             r:0,
+            u:0,
             loading: false,
             overlay: false,
             mapOverlay: false,
@@ -196,6 +198,9 @@ export default {
                 });
                 routesCollection.get().then((doc) => {
                     this.r = doc.size;
+                });
+                usersCollection.get().then((doc) => {
+                    this.u = doc.size;
                 });
             } catch(e) {
                 console.log(e);
