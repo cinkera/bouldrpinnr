@@ -55,6 +55,22 @@ const routes = [
     meta: {
       authRequired: true,
     },
+  },
+  {
+    path: '/allboulders',
+    name: 'AllBoulders',
+    component: () => import('../views/allBoulders.vue'),
+    meta: {
+      authRequired: true,
+    },
+  },
+  {
+    path: '/allroutes',
+    name: 'AllRoutes',
+    component: () => import('../views/allRoutes.vue'),
+    meta: {
+      authRequired: true,
+    },
   }
 ]
 

@@ -3,18 +3,22 @@
         <div class="mapOverlay" v-if="mapOverlay">
             <Map @clicked="setPin"/>
             <div class="buttons text-center">
-                <v-btn class="button" color="deep-purple" @click="locationSubmit">Submit this Pin</v-btn> 
-                <v-btn class="button" color="deep-purple" @click="mapOverlay=false">close</v-btn> 
+                <v-btn class="button" color="deep-purple" @click="locationSubmit">Submit this Pin</v-btn>
+                <v-btn class="button" color="deep-purple" @click="mapOverlay=false">close</v-btn>
             </div>
         </div>
         <div class="loading" v-if="overlayLoading">
             <v-progress-circular
                 color="deep-purple"
                 indeterminate
-            />  
+            />
         </div>
         <div class="overlay" v-if="(!mapOverlay && !overlayLoading)">
-            <h2 class="text-center" > Contributions , Boulders: {{b}}, Routes: {{r}}</h2>
+            <h2 class="text-center" > Viewing all Contributions </h2>
+            <!-- Link these to ALl Boulders and All Routes routes for ADMIN -->
+             <!-- <h2 class="text-center">Routes: {{r}}</h2> -->
+            <router-link class="text-center" to="/allroutes">Routes: {{r}}</router-link>
+            <router-link class="text-center" to="/allboulders">Boulders: {{b}}</router-link>
             <!-- Beginning of overlay -->
             <div class="overlayContent">
                 <div class="cwrap" >
@@ -26,7 +30,6 @@
                         </v-btn>
                     </div>
                     <div class="ccenter">
-                        
                         <div class="indexWrap">
                             <div class="indexImage">
                                 <v-img class="image" contain
@@ -53,7 +56,7 @@
                                         <v-btn class="button" color="deep-purple" @click="pinLocation()">Edit Location</v-btn>
                                         <v-btn class="button" color="deep-purple" @click="addToBoulders()">Add to Boulders</v-btn>
                                         <v-btn class="button" color="deep-purple" @click="addToRoutes()">Add to Routes</v-btn>
-                                    </div> 
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -74,7 +77,7 @@
                 </div>
             </div>
             <div class="overlayFooter">
-                <!-- <v-btn class="button" color="deep-purple" 
+                <!-- <v-btn class="button" color="deep-purple"
                     @click="toggleOverlay(null)">Close the overlay</v-btn> -->
             </div>
         </div>
@@ -82,10 +85,10 @@
 </template>
 
 <script>
-import { auth, 
+import { auth,
     contributionsCollection,
     routesCollection,
-    bouldersCollection, 
+    bouldersCollection,
     usersCollection,
     storage } from "@/firebase.js";
 import Map from '@/components/Map'
@@ -101,7 +104,7 @@ export default {
             overlayContent: [],
             b: 0,
             r:0,
-            loading: false, 
+            loading: false,
             overlay: false,
             mapOverlay: false,
             overlayScope: null,
@@ -114,7 +117,7 @@ export default {
             form: {
                 Latitude: null,
                 Longitude: null,
-                name: null, 
+                name: null,
                 author: null,
                 website: null,
                 contributor: null,
@@ -225,7 +228,7 @@ export default {
                 this.updateForm(this.overlayIndex);
                 this.$forceUpdate();
             } else {
-                this.overlayIndex--; 
+                this.overlayIndex--;
                 console.log("\n ... decrement, ", this.overlayIndex);
                 this.updateForm(this.overlayIndex);
                 this.$forceUpdate();
@@ -238,7 +241,7 @@ export default {
                 console.log("\n ... adding wraps to beginning of array")
                 this.updateForm(this.overlayIndex);
             } else {
-                this.overlayIndex++; 
+                this.overlayIndex++;
                 console.log("\n ... increment, ", this.overlayIndex);
                 this.updateForm(this.overlayIndex);
                 this.$forceUpdate();
@@ -254,7 +257,7 @@ export default {
                 bouldersCollection.add(boulder);
                 //get contribution ID
                 let docRef = await contributionsCollection.doc(this.overlayContent[this.overlayIndex].id).get();
-                // remove from contributions 
+                // remove from contributions
                 contributionsCollection.doc(docRef.id).delete();
                 //update User Contributions
                 let user = await usersCollection.doc(this.form.contributor.uid).get();
@@ -263,7 +266,7 @@ export default {
                     contributionsAccepted: acc
                 })
                 alert("Added to boulders database!");
-                this.add();             
+                this.add();
             } catch(e) {
                 this.error = e;
                 alert(e.message)
@@ -325,7 +328,7 @@ export default {
                 routesCollection.add(route);
                 //get contribution ID
                 let docRef = await contributionsCollection.doc(this.overlayContent[this.overlayIndex].id).get();
-                // remove from contributions 
+                // remove from contributions
                 contributionsCollection.doc(docRef.id).delete();
                 //update User Contributions
                 let user = await usersCollection.doc(this.form.contributor.uid).get();
@@ -379,7 +382,7 @@ export default {
 <style scoped>
 .wrapper {
     width: 100vw;
-    height: 110vh;
+    /* height: 110vh; */
     padding: 5px;
 }
 .control {
@@ -441,6 +444,7 @@ export default {
     min-width: 400px;
     margin: auto;
     background: rgba(93, 93, 93, 0.8);
+    border:1px solid green;
     border-radius: 0.5em;
     display: flex;
     flex-direction: column;
@@ -448,7 +452,7 @@ export default {
 .mapOverlay {
     z-index: 10;
     width: 90vw;
-    height: 90vh;
+    /* height: 90vh; */
     background-color: rgba(255,255,255,0.5);
 }
 .overlayContent {
@@ -457,17 +461,16 @@ export default {
 }
 .cwrap {
     width: 100%;
-    height: 100%; 
+    height: 100%;
     display: flex;
     flex-direction: row;
 }
 .cleft {
     order: 1;
     width: 10%;
-    height: 100%;
     text-align: center;
     position: relative;
-    top: 50%;
+    margin-top: 30%;
 }
 .ccenter {
     order: 2;
@@ -476,7 +479,6 @@ export default {
 .indexWrap {
     border: 1px solid white;
     width: 100%;
-    height: 100vh;
     padding: 2px;
     text-align: center;
     display: flex;
@@ -496,10 +498,9 @@ export default {
 .cright {
     order: 3;
     width: 10%;
-    height: 100%;
     text-align: center;
     position: relative;
-    top: 50%;
+    margin-top: 30%;
 }
 .overlayFooter {
     width: 100%;

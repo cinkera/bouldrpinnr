@@ -1,0 +1,124 @@
+<template>
+    <div class="wrapper">
+        <div class="loading" v-if="loading">
+            <v-progress-circular
+                color="deep-purple"
+                indeterminate
+            /> 
+        </div>
+        <h2 class="text-center">Total routes: {{ total }}</h2>
+        <div class="content" :v-if="(!loading && !mapOverlay)" v-for="(route,  index) in this.routes" 
+            :key="index" :contain='true'>
+                <div class="route" :style="{'width': isMobile ? '95%' : '100%'}">
+                    <div class="image">
+                        <v-img v-if="isMobile" :contain='true' max-height="200" max-width="400" 
+                            :src="route.imgLink"></v-img>
+                        <v-img v-if="!isMobile" :contain='true' max-height="600" max-width="600" 
+                            :src="route.imgLink"></v-img>
+                    </div>
+                    <div class="infor">
+                        <h2>{{route.name}}</h2>
+                        <p class="l">hint: {{route.hint}}</p>
+                        <p class="l">Photo Creds: {{ route.author }}</p>
+                        <p class="l" >Photo Cred website: {{ route.website }}</p>
+                        <p class="l">Latitude: {{route.Latitude}}</p>
+                        <p class="l">Longitude: {{route.Longitude}}</p>
+                        <!-- Latitude: (...)
+                        Longitude: (...)
+                        author: (...)
+                        contributor: (...)
+                        hint: (...)
+                        imgLink: "https://firebasestorage.googleapis.com/v0/b/bouldpinnr.appspot.com/o/suggestionImages%2F07242017-5650.jpg?alt=media&token=a564865a-883e-4b39-a356-368fc4a13a2b"
+                        name: "What's Up Arete"
+                        website: "instagram.com/pike_taylor" -->
+                    </div>
+                </div>
+        </div>
+    </div>
+</template>
+
+
+<script>
+import { auth, 
+    routesCollection, 
+} from "@/firebase.js";
+import { isMobile } from 'mobile-device-detect';
+
+export default {
+    name: "Allroutes",
+    props: [''],
+    components: { },
+    data() {
+        return {
+            loading: false, 
+            error: null,
+            routes: [],
+            total: 0,
+            editOverlay: false,
+            mapOverlay: false,
+            isMobile
+        }
+    },
+    methods: {
+        // getsroutes and puts them in routes array
+        async getroutes() {
+            try {
+                this.loading = true;
+                routesCollection.get().then((doc) => {
+                    doc.forEach((ele) => {
+                        this.routes.push(ele.data());
+                    })
+                    console.log("\n ... allroutes: ", this.routes);
+                    this.total = this.routes.length;
+                    this.loading = false;
+                })
+            } catch(e) {
+                this.error = e
+                alert(e.message)
+            }
+        }
+    },
+    created() {
+        // should access guard this view from other than ME
+        if(auth.currentUser && (auth.currentUser.uid !== "dQ2nCzva75ZvgE8Xy6YzRKO8urf2")) {
+            console.log("\n \n \n You chose the wrong route, fool \n \n \n ");
+            this.$router.push('/');
+        } else {
+            this.getroutes();
+        }
+    }
+}
+</script>
+<style scoped>
+.wrapper {
+    margin: auto;
+}
+.loading {
+    margin: 50% 50%;
+}
+.content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin: 2px auto;
+}
+.route {
+    order: 1;
+    border: 1px solid white;
+    border-radius: 0.8em;
+    width: 80%;
+    height: 30%;
+    display:flex;
+    flex-direction: row;
+    padding: 3px;
+}
+.image {
+    order:1;
+    border-radius: 0.8em;
+}
+.infor {
+    order: 2;
+    padding: 3px;
+}
+</style>
