@@ -30,15 +30,16 @@
               <Map @clicked="setPin"/>
             </div>
 
+            <div @click="closeClick">
             <v-overlay class='overlay' :opacity="opacity" :value="overlay">
-                <div class="activeContent">
-                    <div class="img">
+                <div class="activeContent" >
+                    <div class="img" @click="overlay=true">
                         <v-img class="mx-auto center" max-width="90vh" max-height="80vh" :src="this.imageSource"></v-img>
                     </div>
-                    <div class='bottom' :opacity="opacity">
+                    <div class='bottom' :opacity="opacity" >
                         <h3 class="text-center"> {{current}} / {{total}} </h3>
                         <div class="btns" :style="{'flex-direction': isMobile ? 'column' : 'row'}">
-                            <v-btn class="hide butt" color="white" outlined @click="overlay=false">
+                            <v-btn class="hide butt" color="white" outlined @click="closeClick">
                                 close overlay
                             </v-btn> 
                             <v-btn class="butt" color="white" outlined @click="hintClicked">
@@ -54,6 +55,7 @@
                     </div>
                 </div>
             </v-overlay>
+            </div>
 
             <div class="buttons" v-if="!overlay && !finished">
               <h3 :style="{color: this.$vuetify.theme.dark ? 'white' : '#673AB7'}" class="text-center"> {{current}} / {{total}} </h3>
@@ -252,6 +254,7 @@ export default {
         // when the user clicks on the image credits
         creditClicked() {
             // open new window with photo credited info
+            console.log('/n credit clicked: ' + this.formations[this.activeFormation].website);
             window.open(this.formations[this.activeFormation].website, "_blank"); 
         },
         // when the user pins a location on the map
@@ -296,6 +299,11 @@ export default {
         //closes map Helper
         closeHelper(){
             this.mapHelperActive = false;
+        },
+        // method for closing the rock overlay when clicks should
+        closeClick() {
+            //console.log("\nthis click should close overlay")
+            this.overlay = false;
         }
     }
 }
@@ -370,4 +378,5 @@ export default {
 .loader {
     margin: 50% 50%;
 }
+
 </style>

@@ -17,9 +17,9 @@
             <h2 class="text-center" > Viewing all Contributions </h2>
             <!-- Link these to ALl Boulders and All Routes routes for ADMIN -->
              <!-- <h2 class="text-center">Routes: {{r}}</h2> -->
-            <router-link class="text-center" to="/allroutes">Routes: {{r}}</router-link>
-            <router-link class="text-center" to="/allboulders">Boulders: {{b}}</router-link>
-            <router-link class="text-center" to="/allusers">Users: {{u}}</router-link>
+            <router-link class="text-center link" to="/allroutes">Routes: {{r}}</router-link>
+            <router-link class="text-center link" to="/allboulders">Boulders: {{b}}</router-link>
+            <router-link class="text-center link" to="/allusers">Users: {{u}}</router-link>
             <!-- Beginning of overlay -->
             <div class="overlayContent">
                 <div class="cwrap" >
@@ -449,7 +449,6 @@ export default {
     min-width: 400px;
     margin: auto;
     background: rgba(93, 93, 93, 0.8);
-    border:1px solid green;
     border-radius: 0.5em;
     display: flex;
     flex-direction: column;
@@ -482,7 +481,7 @@ export default {
     width: 80%;
 }
 .indexWrap {
-    border: 1px solid white;
+    /* border: 1px solid white; */
     width: 100%;
     padding: 2px;
     text-align: center;
@@ -524,5 +523,13 @@ export default {
     object-fit: contain;
     overflow-y: none;
     margin: auto;
+}
+.link {
+    text-decoration: none;
+    color: white;
+    font-size: 1.5em;
+}
+.link:hover {
+    text-decoration: underline;
 }
 </style>

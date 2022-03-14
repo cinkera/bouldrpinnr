@@ -52,11 +52,8 @@
 </template>
 
 <script>
-import { auth, 
-    contributionsCollection,
-    bouldersCollection, 
-    routesCollection,
-    usersCollection } from "@/firebase.js";
+import { bouldersCollection, 
+    routesCollection } from "@/firebase.js";
 import { isMobile } from 'mobile-device-detect';
 
 export default {
@@ -76,6 +73,7 @@ export default {
     methods: {
         async getBoulder() {
             try {
+                // Blue steel, 
                 this.boulderLoading = true;
                 bouldersCollection.where('name', '==', 'Blue Steel').get().then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
@@ -90,8 +88,9 @@ export default {
         },
         async getRoute() {
             try {
+                // 'Amarillo Sunset', 'Edge of a Dream', 'Dog Leg'
                 this.routeLoading = true;
-                routesCollection.where('name', '==', 'Amarillo Sunset').get().then((querySnapshot) => {
+                routesCollection.where('name', '==', 'Dog Leg').get().then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         this.routeURL = doc.data().imgLink;
                     });
@@ -140,6 +139,9 @@ export default {
 .tiles {
     order: 2;
     display: flex;
+    margin: auto;
+    padding: 5px;
+    width: 70%;
     flex-direction: row;
 }
 .lower {
@@ -151,6 +153,7 @@ export default {
 }
 .tile {
     width: 400px;
+    max-height: 500px;
     /* border: 1px solid white; */
     overflow: hidden;
     margin: 5px auto;
