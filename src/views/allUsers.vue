@@ -9,11 +9,11 @@
         <h2 class="text-center">Total users: {{ total }}</h2>
         <div class="content" :v-if="(!loading && !mapOverlay)" v-for="(user,  index) in this.users" 
             :key="index" :contain='true'>
-                <div class="user" :style="{'width': isMobile ? '95%' : '100%'}">
+                <div class="user" :style="{'width': isMobile ? '600' : '1000'}">
                     <div class="image">
-                        <v-img v-if="isMobile" :contain='true' max-height="200" max-width="400" 
+                        <v-img v-if="isMobile" :contain='true' max-height="200" max-width="200" 
                             :src="user.photoURL"></v-img>
-                        <v-img v-if="!isMobile" :contain='true' max-height="600" max-width="700" 
+                        <v-img v-if="!isMobile" :contain='true' max-height="400" max-width="400" 
                             :src="user.photoURL"></v-img>
                     </div>
                     <div class="infor">
@@ -109,6 +109,7 @@ export default {
     display:flex;
     flex-direction: row;
     padding: 3px;
+    margin:auto;
 }
 .image {
     order:1;

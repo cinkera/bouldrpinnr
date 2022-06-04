@@ -49,9 +49,17 @@ const routes = [
     component: () => import('../views/Learn.vue'),
   },
   {
+    path: '/allContributions',
+    name: 'allContributions',
+    component: () => import('../views/allContributions.vue'),
+    meta: {
+      authRequired: true,
+    },
+  },
+  {
     path: '/adminControlPanel',
-    name: 'AdminControlPanel',
-    component: () => import('../views/adminControl.vue'),
+    name: 'adminControlPanel',
+    component: () => import('../views/adminControlPanel.vue'),
     meta: {
       authRequired: true,
     },

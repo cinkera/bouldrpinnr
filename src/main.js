@@ -12,6 +12,13 @@ import "@/plugins/vuelidate";
 
 Vue.config.productionTip = false
 
+//enable variables in css fields for style properties
+Vue.use(vuetify, {
+  options: {
+    customProperties: true
+  }
+})
+
 // Localhost
 axios.defaults.baseURL = 'http://localhost:5000/bouldpinnr/us-central1/api';
 

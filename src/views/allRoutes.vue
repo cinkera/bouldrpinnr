@@ -9,11 +9,11 @@
         <h2 class="text-center">Total routes: {{ total }}</h2>
         <div class="content" :v-if="(!loading && !mapOverlay)" v-for="(route,  index) in this.routes" 
             :key="index" :contain='true'>
-                <div class="route" :style="{'width': isMobile ? '95%' : '100%'}">
+                <div class="route" :style="{'width': isMobile ? '600' : '1000'}">
                     <div class="image">
-                        <v-img v-if="isMobile" :contain='true' max-height="200" max-width="400" 
+                        <v-img v-if="isMobile" :contain='true' max-height="200" max-width="200" 
                             :src="route.imgLink"></v-img>
-                        <v-img v-if="!isMobile" :contain='true' max-height="600" max-width="600" 
+                        <v-img v-if="!isMobile" :contain='true' max-height="400" max-width="400" 
                             :src="route.imgLink"></v-img>
                     </div>
                     <div class="infor">
@@ -112,6 +112,7 @@ export default {
     display:flex;
     flex-direction: row;
     padding: 3px;
+    margin:auto;
 }
 .image {
     order:1;

@@ -30,7 +30,7 @@
               <Map @clicked="setPin"/>
             </div>
 
-            <div @click="closeClick">
+            <div @click="closeClick"> 
             <v-overlay class='overlay' :opacity="opacity" :value="overlay">
                 <div class="activeContent" >
                     <div class="img" @click="overlay=true">

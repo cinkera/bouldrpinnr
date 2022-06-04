@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import router from '../router/index'
-import firebase from 'firebase'
+// import router from '../router/index'
+// import firebase from 'firebase'
 
 // Files
 import user from "./modules/users";
