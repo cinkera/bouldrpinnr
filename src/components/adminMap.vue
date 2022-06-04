@@ -86,7 +86,7 @@ export default {
         }
 
         this.bouldersList.forEach((ele) => {
-          console.log(ele)
+          // console.log(ele)
           let marker = new google.maps.Marker({
               position: new google.maps.LatLng(ele.Latitude,ele.Longitude),
               map: this.map,
@@ -124,7 +124,6 @@ export default {
             '<div class="content">' + 
             '<a>' + ele.name + "</a> " + "<br>" + 
             '<a>' + ele.Latitude + ',' + ele.Longitude +"</a> " + "<br>" + 
-            '<a>' + ele.name + "</a> " + "<br>" + 
             "</div>";
           const infowindow = new google.maps.InfoWindow({
             content: contentString,
@@ -178,6 +177,10 @@ export default {
   height: 850px;
 }
 .content{
+  color: black;
+}
+a {
+  text-decoration: none;
   color: black;
 }
 </style>
